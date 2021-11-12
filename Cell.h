@@ -1,63 +1,66 @@
-#ifndef _CELL_H
-#define _CELL_H
+#ifndef _CELL_H_
+#define _CELL_H_
 
-#include <vector>
+#include <string>
+#include <unordered_map>
 
-//LIBRARIES FOR CELLS ON BOARD
+#include "Piece.h"
 
 class Cell {
 protected:
-    int cellCoordinate; // cell's coordinates, we use only int because we will create from 0 to 63
+	//we use the int type to store coordinates of cells
+	//because we will define it as integer from 0 to 63
+	int cellCoordinate;
 
 private:
-    static std::vector<EmptyCell> cachedEmptyCells;
+	//empty cells to be reused
+	static std::unordered_map<int, EmptyCell*> cachedEmptyCells;
 
 public:
-    //pure virtual function, because we will create different types of cells
-    //check if a cell is occupied
-    virtual bool isOccupied() = 0; 
-    virtual std::string toString() = 0;
+	Cell(int coor);
 
-public:
-    Cell();
-    //parameterized constructor, we use it to create cell with coordinates
-    Cell(int coordinate);
+	//create empty cells
+	static std::unordered_map<int, EmptyCell*> createCachedEmptyCells();
 
-    //getter for coordinate
-    int getCoordinate();
+	//create a cell, this cell can store a piece or not
+	static Cell* createCell(int coor, Piece* piece);
 
-public:
-    std::vector<EmptyCell> createCachedEmptyCells();
+	virtual bool isOccupied() = 0;
 
+	virtual Piece* getPiece() = 0;
+
+	int getCellCoordinate();
 };
 
-class EmptyCell : public Cell { 
+class EmptyCell : public Cell {
 public:
-    //parameterized constructor of EmptyCell is the same as the base class
-    EmptyCell(int coordinate) : Cell(coordinate) {};
+	EmptyCell(int coor);
 
-    bool isOccupied();
+	bool isOccupied();
 
-    std::string toString();
+	Piece* getPiece();
 
+	std::string toString();
 };
 
 class OccupiedCell : public Cell {
-//This will be uncommented when we've define class Piece
-// private:
-//     Piece pieceOnCell;
-
-// public:
-//     OccupiedCell(int coordinate, Piece piece) : Cell(coordinate) {
-//         this->pieceOnCell = piece;
-//     };
+private:
+	Piece* pieceOnCell;
 
 public:
-    bool isOccupied();
+	~OccupiedCell() {
+		if (pieceOnCell) {
+			delete[] pieceOnCell;
+		}
+	}
 
-    //Piece getPiece();
+	OccupiedCell(int coor, Piece* p);
 
-    std::string toString();
+	bool isOccupied();
+
+	Piece* getPiece();
+
+	std::string toString();
 };
 
-#endif
+#endif // !_CELL_H_

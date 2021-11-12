@@ -1,39 +1,97 @@
-#ifndef _PIECE_H
-#define _PIECE_H
+#ifndef _PIECE_H_
+#define _PIECE_H_
+
+#include <string>
+#include <vector>
+#include <iostream>
+#include <any>
+
+#include "Player.h"
 
 class PieceType {
 private:
-    std::string pieceName;
-
-    //values of pieces from this link:
-    //https://www.chesskid.com/article/view/chess-pieces-values
-    int pieceValue;
+	std::string pieceType;
+	int pieceValue = 0;
 
 public:
-    static PieceType PAWN;
-    static PieceType KNIGHT;
-    static PieceType BISHOP;
-    static PieceType ROOK;
-    static PieceType QUEEN ;
-    static PieceType KING;
+	static PieceType* PAWN;
+	static PieceType* ROOK;
+	static PieceType* KNIGHT;
+	static PieceType* BISHOP;
+	static PieceType* QUEEN;
+	static PieceType* KING;
 
-public:
-    PieceType(std::string name, int value);
+	PieceType(const std::string& name, int val);
 
-    std::string toString();
+	std::string toString();
 
-    bool isEqual(PieceType diffType);
+	bool isEqual(PieceType* p);
 
-    std::string getPieceName();
+	std::string getPieceName();
 
-    int getPieceValue();
+	int getPieceValue();
 };
 
-PieceType PieceType::PAWN = PieceType("Pawn", 1);
-PieceType PieceType::KNIGHT = PieceType("Knight", 3);
-PieceType PieceType::BISHOP = PieceType("Bishop", 3);
-PieceType PieceType::ROOK = PieceType("Rook", 5);
-PieceType PieceType::QUEEN = PieceType("Queen", 9);
-PieceType PieceType::KING = PieceType("King", 0); //the KING is special, it has no value because if we lose the king, we lose the game.
+class Piece {
+protected:
+	//positions are number from 0 to 63
+	int piecePosition = 0;
+
+	Sides pieceSide = static_cast<Sides>(0);
+
+	bool firstMove = false;
+
+	PieceType* type;
+
+public:
+	int cachedHashValue = 0;
+
+	virtual ~Piece() {
+		if (type) {
+			delete[] type;
+		}
+	}
+
+	Piece(int pos, Sides side, PieceType* t, bool firstMove);
+
+	bool isEquals(std::any obj);
+
+private:
+	int calcHashValue;
+
+public:
+	int getHashValue();
+
+	bool isWhite();
+	bool isBlack();
+
+	bool getFirstMove();
+
+	void setFirstMove(bool val);
+
+	bool isFirstMove();
+
+	bool isKing();
+	bool isQueen();
+	bool isBishop();
+	bool isKnight();
+	bool isRook();
+	bool isPawn();
+
+	int getPiecePosition();
+
+	PieceType* getPieceType();
+
+	Sides getPieceSide();
+
+	int getPieceValue();
+
+	//get all legal moves of this piece
+	virtual std::vector<Move*> getLegalMoves(Board* board) = 0;
+
+	virtual Piece* movePiece(Move* move) = 0;
+
+	virtual std::any clone() = 0;
+};
 
 #endif
