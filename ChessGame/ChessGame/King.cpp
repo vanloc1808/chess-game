@@ -8,16 +8,16 @@ King::King(int c, int r, GameColor color) {
 
 	this->_pieceColor = color;
 
-	//this->setImage();
+	this->setImage();
 }
 
 void King::setImage() {
 	if (this->_pieceColor == GameColor::White) {
-		cout << "Opened white file!\n";
+		//cout << "Opened white file!\n";
 		this->_pieceTexture.loadFromFile("images/pieces/WhiteKing.png");
 	}
 	else {
-		cout << "Opened black file!\n";
+		//cout << "Opened black file!\n";
 		this->_pieceTexture.loadFromFile("images/pieces/BlackKing.png");
 	}
 
@@ -77,7 +77,7 @@ void King::getPML(PieceBoard pb[][8]) {
 	}
 	else {
 		Vector2i v(this->_currentPlace.getColumn() - 1, this->_currentPlace.getRow() + 1);
-		if (v.x >= 0 && v.x <= BOARD_LENGTH) { /**/
+		if (v.x >= 0 && v.x <= BOARD_LENGTH) { 
 			for (int i = 0; i < 3; i++, v.y--) {
 				if (v.y >= 0 && v.y <= BOARD_WIDTH) {
 					checkAndAddPML(v.x, v.y, pb, this->_pieceColor);
@@ -106,6 +106,6 @@ void King::getPML(PieceBoard pb[][8]) {
 	}
 }
 
-void King::moveToNewPlace(int r, int c) {
-
+void King::moveToNewPlace(int c, int r) {
+	this->_currentPlace.change(c, r);
 }

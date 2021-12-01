@@ -45,6 +45,9 @@
     <ClInclude Include="Pawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PieceSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Pawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

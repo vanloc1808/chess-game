@@ -4,7 +4,7 @@ void Piece::addPML(Vector2i pos) {
 	this->_possibleLocation.push_back(pos);
 }
 
-PieceBoard Piece::checkPML(int r, int c, PieceBoard pb[][8], GameColor color) {
+PieceBoard Piece::checkPML(int c, int r, PieceBoard pb[][8], GameColor color) {
 	if (color == GameColor::Black) {
 		if (pb[c][r] == PieceBoard::EmptyBoard) {
 			return PieceBoard::EmptyBoard;
@@ -29,7 +29,7 @@ PieceBoard Piece::checkPML(int r, int c, PieceBoard pb[][8], GameColor color) {
 	}
 }
 
-void Piece::checkAndAddPML(int r, int c, PieceBoard pb[][8], GameColor color) {
+void Piece::checkAndAddPML(int c, int r, PieceBoard pb[][8], GameColor color) {
 	if (checkPML(c, r, pb, color) == PieceBoard::EmptyBoard || checkPML(c, r, pb, color) == PieceBoard::EnemyBoard) {
 		addPML(Vector2i(c, r));
 	}

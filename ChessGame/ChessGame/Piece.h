@@ -69,9 +69,9 @@ public:
 
 	void addPML(Vector2i pos); //add a new square to possible move location
 
-	PieceBoard checkPML(int r, int c, PieceBoard pb[][8], GameColor color); //check possbible move location
+	PieceBoard checkPML(int c, int r, PieceBoard pb[][8], GameColor color); //check possbible move location
 
-	void checkAndAddPML(int r, int c, PieceBoard pb[][8], GameColor color); //check and add
+	void checkAndAddPML(int c, int r, PieceBoard pb[][8], GameColor color); //check and add
 
 	void consolePMLOutput(); //output the positions to console
 
@@ -81,7 +81,7 @@ public:
 
 	Vector2i getPMLAtIndex(int i); //get the element i of possible move location
 
-	virtual void moveToNewPlace(int r, int c) = 0; //move the piece to a new position
+	virtual void moveToNewPlace(int c, int r) = 0; //move the piece to a new position
 
 	int checkinVectorPML(GameMouse* mouse);  //check mouse and possible move (?)
 

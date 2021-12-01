@@ -23,7 +23,7 @@ public:
 
 	void getPML(PieceBoard pb[][8]); //set up the location that this piece can move to
 
-	void moveToNewPlace(int r, int c); //move the piece to a new position
+	void moveToNewPlace(int c, int r); //move the piece to a new position
 };
 
 #endif // ! _KING_H_
