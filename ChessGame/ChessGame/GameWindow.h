@@ -40,7 +40,7 @@ public:
 
 	bool isFullScreen();
 
-	void Draw(Drawable& dr);
+	void draw(Drawable& dr);
 
 	Vector2u getWindowSize(); //get the window size
 

@@ -41,7 +41,7 @@ bool GameWindow::isFullScreen() {
 	return this->_isFullScreen;
 }
 
-void GameWindow::Draw(Drawable& dr) {
+void GameWindow::draw(Drawable& dr) {
 	this->_gameWindow.draw(dr);
 }
 

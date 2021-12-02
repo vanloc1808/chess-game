@@ -10,11 +10,13 @@ PieceSet::~PieceSet() {
 	for (int i = 0; i < this->getPieceNumber(); i++) {
 		if (this->_pieces[i]) {
 			delete this->_pieces[i];
+			this->_pieces[i] = nullptr;
 		}
 	}
 
 	if (this->_kingPiece) {
 		delete this->_kingPiece;
+		this->_kingPiece = nullptr;
 	}
 }
 
