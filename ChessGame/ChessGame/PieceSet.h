@@ -42,7 +42,7 @@ public:
 
 	void unselecEaten(); //undo the eaten status
 
-	Piece* cpuSelectionPiece(int c, int r); //return the piece status, used for playing vs CPU
+	Piece* cpuSelectionPiece(int c, int r); //return the piece position, used for playing vs CPU
 
 	int findPieceInVector(Piece* p); //find the position of p in vector
 
