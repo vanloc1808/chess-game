@@ -14,16 +14,16 @@ PieceSet::~PieceSet() {
 		}
 	}
 
-	if (this->_kingPiece) {
+	/*if (this->_kingPiece) {
 		delete this->_kingPiece;
 		this->_kingPiece = nullptr;
-	}
+	}*/
 }
 
 void PieceSet::createPieceSet(GameColor color) {
 	this->_pieces.clear(); //clear the old one (if there is any)
 
-	if (this->_pieceSetColor == GameColor::Black) {
+	if (color == GameColor::Black) {
 		GameColor black = GameColor::Black;
 
 		//create 8 (eight) pawns

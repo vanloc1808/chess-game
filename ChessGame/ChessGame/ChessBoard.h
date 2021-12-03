@@ -76,7 +76,7 @@ public:
 
 	Piece* getSelectedPieceEaten();
 
-	void moveToNewPlace(Piece* p, int c, int r); //move the piece to a new position
+	void movePieceToNewPlace(Piece* p, int c, int r); //move the piece to a new position
 
 	void drawEatenPiece(GameWindow* w); //draw the eaten piece
 

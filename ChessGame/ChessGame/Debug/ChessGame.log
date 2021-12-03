@@ -1,0 +1,8 @@
+﻿  PieceSet.cpp
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(106,20): warning C4018: '<': signed/unsigned mismatch
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(112,20): warning C4018: '<': signed/unsigned mismatch
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(213,20): warning C4018: '<': signed/unsigned mismatch
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(219,20): warning C4018: '<': signed/unsigned mismatch
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(227,20): warning C4018: '<': signed/unsigned mismatch
+F:\GithubRepository\OOP-Project-ChessGame\ChessGame\ChessGame\PieceSet.cpp(224): warning C4715: 'PieceSet::cpuSelectionPiece': not all control paths return a value
+  ChessGame.vcxproj -> F:\GithubRepository\OOP-Project-ChessGame\ChessGame\Debug\ChessGame.exe

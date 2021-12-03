@@ -171,3 +171,76 @@ void ChessBoard::setEatenPiece(Piece* p) {
 	this->_pieceEatenSelection = p;
 	this->_pieceEatenSelection->setCaptured();
 }
+
+void ChessBoard::showPossibleMove(Piece* p, GameWindow* w, bool check) {
+	if (check == true) {
+		for (int i = 0; i < p->getPMLSize(); i++) {
+			this->_possibleMoveSprite.setPosition(Vector2f(LANDMARK + p->getPMLAtIndex(i).x * IMAGE_SIZE, LANDMARK + p->getPMLAtIndex(i).y * IMAGE_SIZE));
+		}
+	}
+}
+
+Piece* ChessBoard::getSelectedPieceMove() {
+	return this->_pieceMoveSelection;
+}
+
+Piece* ChessBoard::getSelectedPieceEaten() {
+	return this->_pieceEatenSelection;
+}
+
+void ChessBoard::movePieceToNewPlace(Piece* p, int c, int r) {
+	p->moveToNewPlace(c, r);
+}
+
+void ChessBoard::drawEatenPiece(GameWindow* w) {
+	for (int i = 0; i < this->_blackPieces->_eatenPieces.size(); i++) {
+		if (i < 8) {
+			this->_blackPieces->_eatenPieces[i]->_pieceSprite.setPosition(775, 768 - 45 * i - 45 - 24);
+		}
+		else {
+			this->_blackPieces->_eatenPieces[i]->_pieceSprite.setPosition(775 + 45, 768 - 45 * (i - 8) - 45 - 24);
+		}
+
+		w->draw(this->_blackPieces->_eatenPieces[i]->_pieceSprite);
+	}
+
+	for (int i = 0; i < this->_whitePieces->_eatenPieces.size(); i++) {
+		if (i < 8) {
+			this->_whitePieces->_eatenPieces[i]->_pieceSprite.setPosition(775, 45 * i + 24);
+		}
+		else {
+			this->_whitePieces->_eatenPieces[i]->_pieceSprite.setPosition(775 + 45, (i - 8) * 45 + 24);
+		}
+
+		w->draw(this->_whitePieces->_eatenPieces[i]->_pieceSprite);
+	}
+}
+
+GameColor ChessBoard::winPiece() {
+	this->checkmate();
+
+	if (this->_blackPieces->_isLost == true) {
+		return GameColor::White;
+	}
+	else if (this->_whitePieces->_isLost == true) {
+		return GameColor::Black;
+	}
+}
+
+void ChessBoard::checkmate() {
+	for (int i = 0; i < this->_whitePieces->getPieceNumber(); i++) {
+		for (int j = 0; j < this->_whitePieces->_pieces[i]->getPMLSize(); j++) {
+			if (this->_whitePieces->_pieces[i]->getPMLAtIndex(j) == this->_blackPieces->getKingPosition()) {
+				cout << "Black is being checkmated\n";
+			}
+		}
+	}
+
+	for (int i = 0; i < this->_blackPieces->getPieceNumber(); i++) {
+		for (int j = 0; j < this->_blackPieces->_pieces[i]->getPMLSize(); j++) {
+			if (this->_blackPieces->_pieces[i]->getPMLAtIndex(j) == this->_whitePieces->getKingPosition()) {
+				cout << "White is being checkmated\n";
+			}
+		}
+	}
+}
