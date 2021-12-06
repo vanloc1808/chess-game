@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Bishop">
+    <Position X="7" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAACAAAAQAAAAQSQABAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bishop.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChessBoard">
+    <Position X="4.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ggSAQAGAAQAiACAAABQQAAAAEQPAwhIAAAAEEJUAAYg=</HashCode>
+      <FileName>ChessBoard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameMouse">
+    <Position X="1" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAQAAIAAAEAAQICgAIAgCAABAAAAIAQAAAAAAA=</HashCode>
+      <FileName>Mouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameWindow">
+    <Position X="31.25" Y="0.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAggAAAgAACIAAAAAAACAAAAgAMDAAMAAAAQ=</HashCode>
+      <FileName>GameWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="King" Collapsed="true">
+    <Position X="13.75" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="Piece" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.312" Y="1" />
+        <Point X="13.75" Y="2.562" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAgCAAAAQAAAAASQABAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>King.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Knight">
+    <Position X="17.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAEACAAAAQAAAAASQABAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Knight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pawn">
+    <Position X="20.5" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAAAAAiAAAAQAAAAASQABAgAAAEAAAAAgAAAA=</HashCode>
+      <FileName>Pawn.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Piece">
+    <Position X="10" Y="1" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>ACABAAAAUIEACAwMAwAAEACSQABAoQAgQAAQAAAAUAA=</HashCode>
+      <FileName>Piece.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PieceSet">
+    <Position X="23" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAhABAQAAEAQAAACAQAYCAIABAAAAAAQAQABCAAAw=</HashCode>
+      <FileName>PieceSet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="27.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAMAIBAAAAAAAAAAAAAAAAAAASAAgAABAEI0AIABA=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Queen">
+    <Position X="7" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gCAAAAAAAAAACAAAAQAAAAASQABAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Queen.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rook">
+    <Position X="17.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAACAAAAUAAAAASQABAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rook.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Square">
+    <Position X="20.75" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEEAAEAAAIAAAAAAAAAAAAAgAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Square.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="GameColor">
+    <Position X="1.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Piece.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PieceBoard">
+    <Position X="23" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQACAAAgAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Piece.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
