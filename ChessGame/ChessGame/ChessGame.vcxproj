@@ -22,6 +22,7 @@
     <ClInclude Include="AIPlayer.h" />
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="ChessBoard.h" />
+    <ClInclude Include="EventInput.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="AIPlayer.cpp" />
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
+    <ClCompile Include="EventInput.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
