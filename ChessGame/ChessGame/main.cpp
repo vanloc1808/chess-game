@@ -1,8 +1,8 @@
 #include <iostream>
-#include "ChessBoard.h"
+#include "AIPlayer.h"
 
 int main() {
-	ChessBoard cb;
+	/*ChessBoard cb;
 
 	cb.createChessBoard();
 
@@ -22,7 +22,11 @@ int main() {
 
 	cout << "After updating:\n";
 
-	cb.showToConsole();
+	cb.showToConsole();*/
+
+	AIPlayer ai;
+
+	cout << "Fine bro!\n";
 
 	return 0;
 }

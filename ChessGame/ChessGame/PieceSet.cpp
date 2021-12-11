@@ -95,7 +95,7 @@ void PieceSet::createPieceSet(GameColor color) {
 		Piece* q = new Queen(3, 7, white);
 		this->_pieces.push_back(q);
 	}
-	cout << this->_pieces.size() << "\n";
+	//cout << this->_pieces.size() << "\n";
 }
 
 int PieceSet::getPieceNumber() {
