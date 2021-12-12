@@ -35,7 +35,7 @@ public:
 
 	void stopSound();
 
-	void changeSoundVolume(int v); 
+	void changeSoundVolume(int volume); 
 };
 
 

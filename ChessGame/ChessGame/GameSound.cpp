@@ -36,6 +36,6 @@ void GameSound::stopSound() {
 	this->_gameSound.stop();
 }
 
-void GameSound::changeSoundVolume(int v) {
-	this->_gameSound.setVolume(v);
+void GameSound::changeSoundVolume(int volume) {
+	this->_gameSound.setVolume(volume);
 }
