@@ -49,9 +49,9 @@ private:
 	GameMode _gameMode;
 
 public:
-	GameMenu();
+	GameMenu(); //constructor
 
-	~GameMenu();
+	~GameMenu(); //destructor
 
 	void initMouseMusicSound(); //initialize mouse, music and sound
 
