@@ -1,5 +1,5 @@
-#ifndef _MOUSE_H_
-#define _MOUSE_H_
+#ifndef _GAMEMOUSE_H_
+#define _GAMEMOUSE_H_
 
 #include <SFML/Graphics.hpp>
 #include <iostream>

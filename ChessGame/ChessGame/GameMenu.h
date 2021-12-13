@@ -59,7 +59,8 @@ public:
 
 	GameMode getGameMode();
 
-	void dragAndDrop(Sprite& s, bool& isMoving, Vector2i pos);
+	//function dragAndDrop will be consider to delete later.
+	//void dragAndDrop(Sprite& s, bool& isMoving, Vector2i pos);
 
 	void setGameVolume(Volume& vol);
 };
