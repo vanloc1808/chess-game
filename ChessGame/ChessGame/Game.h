@@ -95,7 +95,7 @@ private:
 
 	//images of game
 	//background
-	Texture _backgroudTexture;
+	Texture _backgroundTexture;
 
 	Sprite _backgroundSprite; 
 
@@ -142,9 +142,9 @@ public:
 
 	void initGame(); //initialize the game
 
-	void createGamePvP(); //create a PvP game
+	void createPvPGame(); //create a PvP game
 
-	void createGamePvE(); //create a PvE game
+	void createPvEGame(); //create a PvE game
 
 	void handleMenuInput(); //handle menu
 
