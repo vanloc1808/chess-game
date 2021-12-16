@@ -265,3 +265,191 @@ void Game::createPvEGame() {
 		this->_gameWindow.endDDrawing();
 	}
 }
+
+void Game::handleMenuInput() {
+	MenuStatus tempStatus = this->_gameMenu.initMenu();
+
+	if (tempStatus == MenuStatus::EXITING) {
+		this->_gameStatus = MenuStatus::EXITING;
+	}
+	else if (tempStatus == MenuStatus::PLAYING) {
+		this->_gameStatus = MenuStatus::PLAYING;
+
+		this->_gameMode = this->_gameMenu.getGameMode();
+
+		this->_gameMenu.setGameVolume(this->_gameVolume);
+
+		if (this->_gameMode == GameMode::PvP) {
+			this->createPvPGame();
+		}
+		else if (this->_gameMode == GameMode::PvE) {
+			this->createPvEGame();
+		}
+	}
+	else if (tempStatus == MenuStatus::OPTION) {
+		//do nothing?
+	}
+}
+
+void Game::showPossibleMove(PieceSet* pieceSet) {
+	for (int i = 0; i < pieceSet->getPieceNumber(); i++) {
+		if (this->_gameMouse.checkGetGlobalBounds(pieceSet->_pieces[i]->_pieceSprite) == true) {
+			this->_chessBoard._blackPieces->unselectPiece();
+			this->_chessBoard._whitePieces->unselectPiece();
+
+			pieceSet->_pieces[i]->setSelected();
+			this->_chessBoard.drawSelectedPiece(&(this->_gameWindow));
+
+			if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+				this->_gameClickingSound.playSound();
+				this->_inGameSpriteDrawing = true;
+
+				this->_chessBoard.setSelectedPiece(pieceSet->_pieces[i]);
+
+				cout << pieceSet->_pieces[i]->getCurrentPlace().getRow() << " ";
+				cout << pieceSet->_pieces[i]->getCurrentPlace().getColumn() << "\n";
+				this->_chessBoard.showToConsole();
+
+				pieceSet->_pieces[i]->clearPML();
+				pieceSet->_pieces[i]->getPML(this->_chessBoard._pieceboard);
+				pieceSet->_pieces[i]->consolePMLOutput();
+			}
+		}
+	}
+}
+
+void Game::selectPiecePvP() {
+	if (this->_playerTurn == PlayerTurn::PLAYER_1) {
+		this->showPossibleMove(this->_chessBoard._whitePieces);
+	}
+	else if (this->_playerTurn == PlayerTurn::PLAYER_2) {
+		this->showPossibleMove(this->_chessBoard._blackPieces);
+	}
+
+	this->_chessBoard.showPossibleMove(this->_chessBoard.getSelectedPieceMove(), &(this->_gameWindow), this->_inGameSpriteDrawing);
+
+	if (this->_inGameSpriteDrawing == true) {
+		this->_chessBoard.drawSelectedPiece(&(this->_gameWindow));
+	}
+}
+
+void Game::selectPiecePvE(GameColor color) {
+	if (color == GameColor::White) {
+		this->showPossibleMove(this->_chessBoard._whitePieces);
+	}
+	else if (color == GameColor::Black) {
+		this->showPossibleMove(this->_chessBoard._blackPieces);
+	}
+
+	this->_chessBoard.showPossibleMove(this->_chessBoard.getSelectedPieceMove(), &(this->_gameWindow), this->_inGameSpriteDrawing);
+
+	if (this->_inGameSpriteDrawing == true) {
+		this->_chessBoard.drawSelectedPiece(&(this->_gameWindow));
+	}
+}
+
+void Game::castlingProcess(PieceSet* pieceSet, int idx) {
+	if (this->_gameMouse.checkGetGlobalBounds(Vector2i(0, idx)) == true) {
+		if (this->_eventInput._mouseClickType == ClickType::RIGHT_MOUSE) {
+			this->_gameSound.playSound();
+
+			this->_chessBoard.getSelectedPieceMove()->moveToNewPlace(2, idx);
+			pieceSet->_pieces[pieceSet->findPieceInVector(pieceSet->cpuSelectionPiece(0, idx))]->moveToNewPlace(3, idx);
+
+			this->_inGameSpriteDrawing = false;
+			this->_isCastled = false;
+		}
+	}
+	else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(7, idx)) == true) {
+		if (this->_eventInput._mouseClickType == ClickType::RIGHT_MOUSE) {
+			this->_gameSound.playSound();
+
+			this->_chessBoard.getSelectedPieceMove()->moveToNewPlace(6, idx);
+			pieceSet->_pieces[pieceSet->findPieceInVector(pieceSet->cpuSelectionPiece(7, idx))]->moveToNewPlace(5, idx);
+
+			this->_inGameSpriteDrawing = false;
+			this->_isCastled = false;
+		}
+	}
+}
+
+void Game::capturingProcess(PieceSet* pieceSet, int check) {
+	for (int i = 0; i < pieceSet->getPieceNumber(); i++) {
+		bool condition1 = pieceSet->_pieces[i]->getCurrentPlace().getColumn() == this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).x;
+		bool condition2 = pieceSet->_pieces[i]->getCurrentPlace().getRow() == this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).y;
+
+		if (condition1 && condition2) {
+			pieceSet->unselecEaten();
+
+			this->_chessBoard.setEatenPiece(pieceSet->_pieces[i]);
+
+			pieceSet->erasePiece();
+		}
+	}
+}
+
+void Game::selectPlaceToMove() {
+	string res;
+
+	int check = this->_chessBoard.getSelectedPieceMove()->checkinVectorPML(&(this->_gameMouse));
+
+	if (check != -1) {
+		this->_oldPos = Vector2i(this->_chessBoard.getSelectedPieceMove()->getCurrentPlace().getColumn(), this->_chessBoard.getSelectedPieceMove()->getCurrentPlace().getRow());
+
+		if (this->_isCastled == true) {
+			if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::White) {
+				this->castlingProcess(this->_chessBoard._whitePieces, 7);
+			}
+			else if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::Black) {
+				this->castlingProcess(this->_chessBoard._blackPieces, 0);
+			}
+
+			if (this->_gameMode == GameMode::PvP && this->_isCastled == false) {
+				if (this->_playerTurn == PlayerTurn::PLAYER_1) {
+					this->_playerTurn = PlayerTurn::PLAYER_2;
+				}
+				else {
+					this->_playerTurn = PlayerTurn::PLAYER_1;
+				}
+			}
+		}
+		else if (this->_isCastled == false && this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+			this->_inGameSpriteDrawing = false;
+
+			if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::White) {
+				this->capturingProcess(this->_chessBoard._blackPieces, check);
+			}
+			else if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::Black) {
+				this->capturingProcess(this->_chessBoard._whitePieces, check);
+			}
+
+			Vector2f tempNewPos = Vector2f(this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).x * 90 + 24, this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).y * 90 + 24);
+			Vector2f tempOldPos = Vector2f(this->_chessBoard.getSelectedPieceMove()->getCurrentPlace().getColumn() * 90 + 24, this->_chessBoard.getSelectedPieceMove()->getCurrentPlace().getRow() * 90 + 24);
+			this->pieceMoveAnimation(this->_chessBoard.getSelectedPieceMove(), tempNewPos, tempOldPos);
+
+			this->_gameSound.playSound();
+
+			this->_chessBoard.getSelectedPieceMove()->moveToNewPlace(this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).x, this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).y);
+			this->_chessBoard.getSelectedPieceMove()->getPML(this->_chessBoard._pieceboard);
+
+			cout << this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).x << " " << this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).y << "\n";
+
+			if (this->_gameMode == GameMode::PvP) {
+				if (this->_playerTurn == PlayerTurn::PLAYER_1) {
+					this->_playerTurn = PlayerTurn::PLAYER_2;
+				}
+				else {
+					this->_playerTurn = PlayerTurn::PLAYER_1;
+				}
+			}
+			else {
+				this->_newPos = Vector2i(this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).x, this->_chessBoard.getSelectedPieceMove()->getPMLAtIndex(check).y);
+				
+				cout << "Old position: " << this->_oldPos.x << " " << this->_oldPos.y << "\n";
+				cout << "New position: " << this->_newPos.x << " " << this->_newPos.y << "\n";
+
+				this->_position += this->getMoveString(this->_oldPos) + getMoveString(this->_newPos) + " ";
+			}
+		}
+	}
+}

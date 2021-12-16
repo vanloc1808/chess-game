@@ -150,9 +150,15 @@ public:
 
 	void handleMenuInput(); //handle menu
 
+	void showPossibleMove(PieceSet* pieceSet);
+
 	void selectPiecePvP(); //select piece in PvP mode
 
 	void selectPiecePvE(GameColor color); //select piece in PvE mode
+
+	void castlingProcess(PieceSet* pieceSet, int idx);
+
+	void capturingProcess(PieceSet* pieceSet, int check);
 
 	void selectPlaceToMove(); //choose the destination place
 
