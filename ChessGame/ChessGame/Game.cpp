@@ -449,6 +449,39 @@ void Game::selectPlaceToMove() {
 				cout << "New position: " << this->_newPos.x << " " << this->_newPos.y << "\n";
 
 				this->_position += this->getMoveString(this->_oldPos) + getMoveString(this->_newPos) + " ";
+
+				res = this->_aiPlayer.getNextMove(this->_position);
+
+				this->_oldPos = this->moveStringToCoordinate(res[0], res[1]);
+				cout << this->_oldPos.x << " " << this->_oldPos.y << "\n";
+				this->_newPos = this->moveStringToCoordinate(res[2], res[3]);
+				cout << this->_newPos.x << " " << this->_newPos.y << "\n";
+
+				if (this->_playerColor == GameColor::White) {
+					this->_chessBoard.setSelectedPiece(this->_chessBoard._blackPieces->cpuSelectionPiece(this->_oldPos.x, this->_oldPos.y));
+					if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::Black) {
+						for (int i = 0; i < this->_chessBoard._whitePieces->getPieceNumber(); i++) {
+							bool condition1 = this->_chessBoard._whitePieces->_pieces[i]->getCurrentPlace().getColumn() == this->_newPos.x;
+							bool condition2 = this->_chessBoard._whitePieces->_pieces[i]->getCurrentPlace().getRow() == this->_newPos.y;
+
+							if (condition1 && condition2) {
+								this->_chessBoard._whitePieces->unselecEaten();
+								this->_chessBoard.setEatenPiece(this->_chessBoard._whitePieces->_pieces[i]);
+								this->_chessBoard._whitePieces->erasePiece();
+							}
+						}
+					}
+
+					Vector2f otherNewPos = Vector2f(this->_newPos.x * 90 + 24, this->_newPos.y * 90 + 24);
+					Vector2f otherOldPos = Vector2f(this->_oldPos.x * 90 + 24, this->_oldPos.y * 90 + 24);
+					this->pieceMoveAnimation(this->_chessBoard.getSelectedPieceMove(), otherNewPos, otherOldPos);
+
+					this->_gameSound.playSound();
+
+					this->_chessBoard.getSelectedPieceMove()->moveToNewPlace(this->_newPos.x, this->_newPos.y);
+				}
+
+				this->_position += res + " ";
 			}
 		}
 	}
