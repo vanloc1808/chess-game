@@ -486,3 +486,119 @@ void Game::selectPlaceToMove() {
 		}
 	}
 }
+
+GameWindow* Game::getGameWindow() {
+	return &(this->_gameWindow);
+}
+
+string Game::getMoveString(Vector2i pos) {
+	string res;
+
+	res += char(pos.x + 97);
+	res += char(7 - pos.y + 49);
+
+	return res;
+}
+
+Vector2i Game::moveStringToCoordinate(char a, char b) {
+	int x = (int)a - 97;
+	int y = 7 - (int)b + 49;
+
+	return Vector2i(x, y);
+}
+
+void Game::drawInGameIcon() {
+	this->_gameWindow.draw(this->_optionButtonSprite);
+	this->_gameWindow.draw(this->_undoButtonSprite);
+	this->_gameWindow.draw(this->_indoButtonSprite);
+}
+
+IconType Game::getIconProcessingType() {
+	if (this->_gameMouse.checkGetGlobalBounds(this->_optionButtonSprite) == true) {
+		this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+		if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+			cout << "Option button\n";
+
+			this->_isDrawingStatus = IconType::DRAW;
+
+			this->_buttonClickingSound.playSound();
+
+			return IconType::OPTION_BUTTON;
+		}
+	}
+	else if (this->_gameMouse.checkGetGlobalBounds(this->_undoButtonSprite) == true) {
+		this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+		if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+			cout << "Undo button\n";
+
+			return IconType::UNDO_BUTTON;
+		}
+	}
+	else if (this->_gameMouse.checkGetGlobalBounds(this->_indoButtonSprite) == true) {
+		this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+		if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+			cout << "Indo butotn\n";
+
+			return IconType::INDO_BUTTON;
+		}
+	}
+	else {
+		this->_gameMouse.changeImage("images/mouses/Mouse1.png");
+	}
+}
+
+void Game::outputGameMenu() {
+	if (this->getIconProcessingType() == IconType::OPTION_BUTTON && this->_isDrawingStatus == IconType::DRAW) {
+		this->_isChoosingStatus = IconType::WAIT_FOR_CHOOSING;
+
+		this->_gameWindow.draw(this->_gameMenuSprite);
+
+		if (this->_gameMouse.checkGetGlobalBounds(Vector2i(325, 360), 90, 90) == true) { //save button
+			this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+		}
+		else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(465, 360), 90, 90) == true) { //play or pause music button
+			this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+			if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+				this->_buttonClickingSound.playSound();
+
+				if (this->_inGameMusic.getMusicStatus() == MusicStatus::PLAY) {
+					this->_inGameMusic.pauseMusic();
+				}
+				else {
+					this->_inGameMusic.playMusic();
+				}
+			}
+		}
+		else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(600, 360), 90, 90) == true) { //exit button
+			this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+			if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+				this->_buttonClickingSound.playSound();
+
+				this->_inGameMusic.stopMusic();
+
+				this->_gameWindow.close();
+			}
+		}
+		else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(690, 230), 45, 45) == true) {
+			this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+			if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+				this->_buttonClickingSound.playSound();
+
+				this->_isDrawingStatus = IconType::NO_DRAW;
+
+				this->_isChoosingStatus = IconType::NO_WAIT_FOR_CHOOSING;
+			}
+		}
+		else {
+			this->_gameMouse.changeImage("images/mouses/Mouse1.png");
+		}
+
+		this->_gameMouse.consolePositionOutput();
+	}
+}

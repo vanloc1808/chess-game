@@ -162,7 +162,7 @@ public:
 
 	void selectPlaceToMove(); //choose the destination place
 
-	GameWindow* gameGameWindow(); //get game window
+	GameWindow* getGameWindow(); //get game window
 
 	string getMoveString(Vector2i pos); //get move string
 
