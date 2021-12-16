@@ -142,6 +142,8 @@ public:
 
 	void initGame(); //initialize the game
 
+	void promotePawnToAPiece(string pieceName);
+
 	void createPvPGame(); //create a PvP game
 
 	void createPvEGame(); //create a PvE game

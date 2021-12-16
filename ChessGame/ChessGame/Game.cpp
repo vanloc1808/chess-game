@@ -78,6 +78,23 @@ void Game::initGame() {
 	this->_isCastled = false;
 }
 
+void Game::promotePawnToAPiece(string pieceName) {
+	this->_gameMouse.changeImage("images/mouses/Mouse2.png");
+
+	if (this->_eventInput._mouseClickType == ClickType::LEFT_MOUSE) {
+		this->_buttonClickingSound.playSound();
+
+		if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::White) {
+			this->_chessBoard._whitePieces->pawnPromotion(this->_chessBoard.getSelectedPieceMove(), pieceName);
+		}
+		else {
+			this->_chessBoard._blackPieces->pawnPromotion(this->_chessBoard.getSelectedPieceMove(), pieceName);
+		}
+
+		this->_isPawnPromoted = IconType::NO_PROMOTE_PAWN;
+	}
+}
+
 void Game::createPvPGame() {
 	this->_inGameMusic.playMusic();
 	this->_inGameMusic.setRepeatedMusic();
@@ -145,6 +162,39 @@ void Game::createPvPGame() {
 			}
 		}
 
+		if (this->_isPawnPromoted == IconType::PROMOTE_PAWN) {
+			this->_isChoosingStatus = IconType::WAIT_FOR_CHOOSING;
+			this->drawChosenPieceToPromote();
 
+			if (this->_gameMouse.checkGetGlobalBounds(Vector2i(345, 365), 90, 90) == true) { //Rook
+				this->promotePawnToAPiece("Rook");
+			}
+			else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(435, 365), 90, 90) == true) { //Knight
+				this->promotePawnToAPiece("Knight");
+			}
+			else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(525, 365), 90, 90) == true) { //Queen
+				this->promotePawnToAPiece("Queen");
+			}
+			else if (this->_gameMouse.checkGetGlobalBounds(Vector2i(615, 365), 90, 90) == true) { //Bishop
+				this->promotePawnToAPiece("Bishop");
+			}
+			else {
+				this->_gameMouse.changeImage("images/mouses/Mouse1.png");
+			}
+
+			this->_isChoosingStatus = IconType::NO_WAIT_FOR_CHOOSING;
+		}
+
+		this->drawInGameIcon();
+		this->drawPlayerTurn();
+		this->outputGameMenu();
+
+		this->_chessBoard.drawEatenPiece(&(this->_gameWindow));
+		this->_chessBoard.updateChessBoard();
+
+		this->_gameMouse.getPosition(*(this->_gameWindow.getGameWindow()));
+		this->_gameMouse.draw(*(this->_gameWindow.getGameWindow()));
+
+		this->_gameWindow.endDDrawing();
 	}
 }
