@@ -198,3 +198,70 @@ void Game::createPvPGame() {
 		this->_gameWindow.endDDrawing();
 	}
 }
+
+void Game::createPvEGame() {
+	this->_inGameMusic.playMusic();
+	this->_inGameMusic.setRepeatedMusic();
+	this->_inGameMusic.changeMusicVolume(40);
+
+	this->_chessBoard.createChessBoard();
+
+	this->_gameClickingSound.changeSoundVolume(40);
+	this->_buttonClickingSound.changeSoundVolume(60);
+
+	this->_gameWindow.setup("Chess game", this->getBackgroundSize());
+
+	Image icon;
+	icon.loadFromFile("images/icons/ChessIcon.png");
+	this->_gameWindow.getGameWindow()->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	
+	this->_gameMouse.setImage();
+	this->_chessBoard.showToConsole();
+
+	Clock clock;
+	double timer = 0, delay = 0.3;
+
+	while (this->_gameWindow.isDone() == true) {
+		this->_gameWindow.getGameWindow()->setFramerateLimit(60);
+
+		float time = clock.getElapsedTime().asSeconds();
+
+		this->_eventInput.setWindow(&(this->_gameWindow));
+		this->_eventInput.checkEvent();
+
+		this->_gameWindow.beginDrawing();
+		this->_gameWindow.draw(this->_backgroundSprite);
+
+		this->_chessBoard.drawBoard(&(this->_gameWindow));
+
+		for (int i = 0; i < this->_chessBoard._blackPieces->getPieceNumber(); i++) {
+			this->_chessBoard._blackPieces->_pieces[i]->setPosition();
+
+			this->_gameWindow.draw(this->_chessBoard._blackPieces->_pieces[i]->_pieceSprite);
+		}
+
+		for (int i = 0; i < this->_chessBoard._whitePieces->getPieceNumber(); i++) {
+			this->_chessBoard._whitePieces->_pieces[i]->setPosition();
+
+			this->_gameWindow.draw(this->_chessBoard._whitePieces->_pieces[i]->_pieceSprite);
+		}
+
+		this->selectPiecePvE(this->_playerColor);
+
+		if (this->_inGameSpriteDrawing == true) {
+			this->selectPlaceToMove();
+		}
+
+		this->drawInGameIcon();
+		this->drawPlayerTurn();
+		this->outputGameMenu();
+
+		this->_chessBoard.drawEatenPiece(&(this->_gameWindow));
+		this->_chessBoard.updateChessBoard();
+
+		this->_gameMouse.getPosition(*(this->_gameWindow.getGameWindow()));
+		this->_gameMouse.draw(*(this->_gameWindow.getGameWindow()));
+
+		this->_gameWindow.endDDrawing();
+	}
+}
