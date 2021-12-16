@@ -206,7 +206,7 @@ MenuStatus GameMenu::initMenu() {
 				ClickType clickType;
 				
 				while (true) {
-					int dx, dy;
+					int dx = 0, dy = 0;
 
 					Event eve;
 					Vector2i pos = Mouse::getPosition(*(this->_gameWindow).getGameWindow());

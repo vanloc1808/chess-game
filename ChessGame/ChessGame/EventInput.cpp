@@ -27,7 +27,7 @@ void EventInput::checkEvent() {
 void EventInput::checkEvent(Sprite& s) {
 	bool isMoving = false;
 
-	int dx, dy;
+	int dx= 0, dy = 0;
 
 	while (this->_window->getGameWindow()->pollEvent(this->_event)) {
 		this->_mouseClickType = ClickType::MOUSE_WAIT;

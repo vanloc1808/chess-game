@@ -1,5 +1,22 @@
-#include <iostream>
-#include "AIPlayer.h"
+typedef struct IUnknown IUnknown;
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <Windows.h>
+#include <ctime>
+#include "ChessBoard.h"
+#include "GameSound.h"
+#include "GameMusic.h"
+#include "Mouse.h"
+#include "Game.h"
+
+using namespace sf;
+using namespace std;
+
+void turnoffConsole() {
+	HWND hwnd = GetConsoleWindow();
+	ShowWindow(hwnd, SW_HIDE);
+}
 
 int main() {
 	/*ChessBoard cb;
@@ -24,9 +41,15 @@ int main() {
 
 	cb.showToConsole();*/
 
-	AIPlayer ai;
+	ShowCursor(false);
 
-	cout << "Fine bro!\n";
+	turnoffConsole();
+
+	Game game;
+	while (game.getGameStatus() != MenuStatus::EXITING) {
+		game.initGame();
+		game.handleMenuInput();
+	}
 
 	return 0;
 }

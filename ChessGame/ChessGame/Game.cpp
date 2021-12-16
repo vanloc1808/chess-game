@@ -602,3 +602,114 @@ void Game::outputGameMenu() {
 		this->_gameMouse.consolePositionOutput();
 	}
 }
+
+void Game::drawPlayerTurn() {
+	Texture turnTexture;
+	Sprite turnSprite;
+
+	Texture blackTurnTexture;
+	Sprite blackTurnSprite;
+
+	Texture whiteTurnTexture;
+	Sprite whiteTurnSprite;
+
+	turnTexture.loadFromFile("images/menus/TurnButton.png");
+	turnSprite.setTexture(turnTexture);
+
+	blackTurnTexture.loadFromFile("images/chessboards/BlackTurn.png");
+	blackTurnSprite.setTexture(blackTurnTexture);
+
+	whiteTurnTexture.loadFromFile("images/chessboards/WhiteTurn.png");
+	whiteTurnSprite.setTexture(whiteTurnTexture);
+
+	turnSprite.setPosition(880, 120);
+	blackTurnSprite.setPosition(900, 200);
+	whiteTurnSprite.setPosition(900, 200);
+
+	if (this->_playerTurn == PlayerTurn::PLAYER_1) {
+		this->_gameWindow.draw(whiteTurnSprite);
+		this->_gameWindow.draw(turnSprite);
+	}
+	else {
+		this->_gameWindow.draw(blackTurnSprite);
+		this->_gameWindow.draw(turnSprite);
+	}
+}
+
+MenuStatus Game::getGameStatus() {
+	return this->_gameStatus;
+}
+
+void Game::drawChosenPieceToPromote() {
+	if (this->_isPawnPromoted == IconType::PROMOTE_PAWN) {
+		if (this->_chessBoard.getSelectedPieceMove()->getPieceColor() == GameColor::Black) {
+			this->_gameWindow.draw(this->_blackPawnPromotionSprite);
+		}
+		else {
+			this->_gameWindow.draw(this->_whitePawnPromotionSprite);
+		}
+	}
+}
+
+int Game::winner() {
+	if (this->_chessBoard.winPiece() == GameColor::Black) {
+		cout << "Black side win!\n";
+	}
+	else if (this->_chessBoard.winPiece() == GameColor::White) {
+		cout << "White side win!\n";
+	}
+	else {
+		return 0;
+	}
+}
+
+void Game::pieceMoveAnimation(Piece* p, Vector2f newPos, Vector2f oldPos) {
+	Vector2f moveSpace = newPos - oldPos;
+
+	for (int i = 0; i < 30; i++) {
+		p->_pieceSprite.move(moveSpace.x / 30, moveSpace.y / 30);
+
+		this->_gameWindow.draw(this->_backgroundSprite);
+
+		this->_chessBoard.drawBoard(&(this->_gameWindow));
+
+		for (int j = 0; j < this->_chessBoard._blackPieces->getPieceNumber(); j++) {
+			if (this->_chessBoard._blackPieces->findPieceInVector(p) == -1) {
+				this->_chessBoard._blackPieces->_pieces[j]->setPosition();
+
+				this->_gameWindow.draw(this->_chessBoard._blackPieces->_pieces[j]->_pieceSprite);
+			}
+			else {
+				this->_gameWindow.draw(this->_chessBoard._blackPieces->_pieces[j]->_pieceSprite);
+			}
+		}
+
+		for (int j = 0; j < this->_chessBoard._whitePieces->getPieceNumber(); j++) {
+			if (this->_chessBoard._whitePieces->findPieceInVector(p) == -1) {
+				this->_chessBoard._whitePieces->_pieces[j]->setPosition();
+
+				this->_gameWindow.draw(this->_chessBoard._whitePieces->_pieces[j]->_pieceSprite);
+			}
+			else {
+				this->_gameWindow.draw(this->_chessBoard._whitePieces->_pieces[j]->_pieceSprite);
+			}
+		}
+
+		this->_gameWindow.draw(p->_pieceSprite);
+
+		this->drawInGameIcon();
+
+		this->drawPlayerTurn();
+
+		this->_chessBoard.drawEatenPiece(&(this->_gameWindow));
+
+		this->_gameMouse.getPosition(*(this->_gameWindow.getGameWindow()));
+		this->_gameMouse.draw(*(this->_gameWindow.getGameWindow()));
+
+		this->_gameWindow.endDDrawing();		
+	}
+}
+
+void Game::drawCheckmate() {
+
+}
