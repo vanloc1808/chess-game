@@ -5,7 +5,7 @@ const int Bishop::_pieceValue;
 Bishop::Bishop(PieceColor pieceColor) {
     this->_pieceColor = pieceColor;
 
-    this->_pieceType = PieceType::QUEEN;
+    this->_pieceType = PieceType::BISHOP;
 
     this->loadTexture();
 }
