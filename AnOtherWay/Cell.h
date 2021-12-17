@@ -42,7 +42,4 @@ public:
     void setIsChecked(bool check);
 
 };
-//https://stackoverflow.com/questions/18385418/c-meaning-of-a-statement-combining-typedef-and-typename
-typedef vector<vector<Cell>> CellList; 
-
 #endif // _CELL_H_

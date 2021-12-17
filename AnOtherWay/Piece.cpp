@@ -1,5 +1,11 @@
 #include "Piece.h"
 
+Piece::Piece() {
+
+}
+
+
+
 map<PieceColor, map<PieceType, Texture>> Piece::_textureMap;
 
 void Piece::loadTexture() {

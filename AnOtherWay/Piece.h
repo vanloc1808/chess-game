@@ -11,6 +11,9 @@
 using namespace std;
 using namespace sf;
 
+class Cell;
+
+
 //this is an abstract class
 class Piece {
 private:
@@ -39,7 +42,7 @@ public:
     virtual void draw(RenderWindow& window) = 0;
 
     //CellList = 2D vector of Cell
-    virtual vector<ChessMove> computePossbibleMoves(const CellList& cells) = 0;
+    virtual vector<ChessMove> computePossbibleMoves(const vector<vector<Cell>>& cells) = 0;
 
     //getters
     PieceType getPieceType();
