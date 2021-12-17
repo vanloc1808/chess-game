@@ -35,7 +35,7 @@ protected:
 public:
     Piece();
 
-    virtual ~Piece();
+    //virtual ~Piece();
 
     virtual int getPieceValue() = 0;
 
