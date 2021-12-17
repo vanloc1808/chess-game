@@ -1,6 +1,6 @@
 #include "Settings.h"
 
-namespace utils {
+namespace utilities {
     //set the default value for static attributes
     Color Settings::_blackSquareColor = Color(125, 135, 150);
     Color Settings::_whiteSquareColor = Color(232, 235, 239);

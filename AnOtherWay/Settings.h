@@ -5,7 +5,7 @@
 
 using namespace sf;
 
-namespace utils {
+namespace utilities {
     class Settings {
     private:
         static Color _blackSquareColor;
