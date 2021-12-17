@@ -1,5 +1,7 @@
 #include "Knight.h"
 
+const int Knight::_pieceValue; 
+
 Knight::Knight(PieceColor pieceColor) {
     this->_pieceColor = pieceColor;
 

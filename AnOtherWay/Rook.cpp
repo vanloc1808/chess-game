@@ -1,5 +1,7 @@
 #include "Rook.h"
 
+const int Rook::_pieceValue;
+
 Rook::Rook(PieceColor pieceColor) {
     this->_pieceColor = pieceColor;
 
