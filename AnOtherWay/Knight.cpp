@@ -26,14 +26,10 @@ vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cell
     auto position = this->getPosition();
 
     vector<sf::Vector2i> offsets = {
-        sf::Vector2i(-2, -1),
-        sf::Vector2i(-2, 1),
-        sf::Vector2i(-1, 2),
-        sf::Vector2i(1, 2),
-        sf::Vector2i(2, 1),
-        sf::Vector2i(2, -1),
-        sf::Vector2i(1, -2),
-        sf::Vector2i(-1, -2)
+        sf::Vector2i(2, 1), sf::Vector2i(2, -1),
+        sf::Vector2i(1, 2), sf::Vector2i(1, -2),
+        sf::Vector2i(-1, 2), sf::Vector2i(-1, -2),
+        sf::Vector2i(-2, 1), sf::Vector2i(-2, -1)
     };
 
     for (int i = 0; i < offsets.size(); i++) {
