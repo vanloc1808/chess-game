@@ -15,12 +15,14 @@ enum class MoveType {
 class ChessMove {
 
 private:
-    Vector2i _position;
-
-    MoveType _type;
+    
 protected:
 
 public:
+    Vector2i _position;
+
+    MoveType _type;
+    
     ChessMove(const Vector2i& pos, MoveType t); //fully-parameterized constructor
 
     ChessMove(const Vector2i& pos); //partly-parameterized constructor
