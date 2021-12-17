@@ -1,4 +1,6 @@
 #include "Queen.h"
+#include <iostream>
+using namespace std;
 
 const int Queen::_pieceValue;
 
@@ -24,6 +26,8 @@ void Queen::draw(RenderWindow& window) {
 
 vector<ChessMove> Queen::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
+    
+    cout << "Queen compute\n";
 
     vector<ChessMove> possibleMoves;
 
@@ -31,6 +35,7 @@ vector<ChessMove> Queen::computePossbibleMoves(const vector<vector<Cell>>& cells
     Vector2i(0, 1), Vector2i(0, -1),
     Vector2i(-1, 1), Vector2i(-1, 0), Vector2i(-1, -1) };
 
+    cout << "For loop\n";
     for (int i = 0; i < offsets.size(); i++) {
         Vector2i destination = pos + offsets[i];
 
@@ -58,6 +63,7 @@ vector<ChessMove> Queen::computePossbibleMoves(const vector<vector<Cell>>& cells
             }
         }
     }
+    cout << "End for loop\n";
 
     return possibleMoves;
 }

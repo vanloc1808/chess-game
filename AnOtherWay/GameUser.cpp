@@ -36,8 +36,11 @@ void GameUser::clearPieces() {
 }
 
 bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
+    cout << "isChecked function\n";
     //find the position of the King in cells
     Vector2i pos(-1, -1);
+
+    cout << "Before the first loop\n";
 
     for (int i = 0; i < cells.size(); i++) {
         for (int j = 0; j < cells[i].size(); j++) {
@@ -49,6 +52,8 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
         }
     }
+
+    cout << "After the first loop\n";
 
     //check if the King is found
     if (pos.x == -1 || pos.y == -1) {
@@ -65,6 +70,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
         {PieceType::BISHOP, PieceType::QUEEN},
         {PieceType::ROOK, PieceType::QUEEN}
     };
+    cout << "After creating offsets\n";
 
     for (int i = 0; i < offsets.size(); i++) {
         for (int j = 0; j < offsets[i].size(); j++) {
@@ -90,6 +96,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
         } 
     }
+    cout << "Finished iterate offsets\n";
 
     //check if the King is checked by Knights
     vector<Vector2i> knightOffsets = {
@@ -98,7 +105,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
         Vector2i(-1, 2), Vector2i(-1, -2),
         Vector2i(-2, 1), Vector2i(-2, -1)
     };
-
+    cout << "Finish creating knight offsets\n";
     for (int i = 0; i < knightOffsets.size(); i++) {
         Vector2i destination = pos + knightOffsets[i];
 
@@ -114,6 +121,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
         }
     }
+    cout << "After iterating knigh offset\n";
 
     //check if the King is checked by Pawns
     float xoffset;
@@ -122,11 +130,13 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     } else {
         xoffset = 1;
     }
+    cout << "xoffset = " << xoffset << "\n";
 
     vector<Vector2i> pawnOffsets = {
         Vector2i(xoffset, 1), Vector2i(xoffset, -1)
     };
 
+    cout << "Before iterating pawn offsets\n";
     for (int i = 0; i < pawnOffsets.size(); i++) {
         Vector2i destination = pos + pawnOffsets[i];
 
@@ -142,13 +152,15 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
         }
     }
+    cout << "After iterating pawn offsets\n";
 
     //check if the King is checked by the King
+    cout << "Before checking king\n";
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             Vector2i destination = pos + Vector2i(i, j);
 
-            if ((i == 0 && j == 0) || utilities::assisstants::isOnBoardPosition(destination)) {
+            if ((i == 0 && j == 0) || utilities::assisstants::isOnBoardPosition(destination) == false) {
                 continue;
             }
 
@@ -161,6 +173,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
         }
     }
+    cout << "After checking king\n";
 
     return false;
 }
@@ -229,7 +242,7 @@ bool GameUser::hasLegalMoves(const vector<vector<Cell>>& cells) {
     return false;
 }
 
-void GameUser::checkKingSlot(bool check, vector<vector<Cell>>& cells) {
+void GameUser::checkKingCell(bool check, vector<vector<Cell>>& cells) {
     if (auto king = this->_pieces[PieceType::KING].at(0).lock()) {
         auto pos = king->getPosition();
         cells[pos.x][pos.y].setIsChecked(check);

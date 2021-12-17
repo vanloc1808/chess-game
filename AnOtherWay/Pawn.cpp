@@ -1,4 +1,6 @@
 #include "Pawn.h"
+#include <iostream>
+using namespace std;
 
 const int Pawn::_pieceValue;
 
@@ -29,6 +31,7 @@ void Pawn::draw(RenderWindow& window) {
 
 vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
+    cout <<"Pawn compute\n";
 
     vector<ChessMove> possibleMoves;
 
@@ -61,6 +64,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     }
 
     //check the possible capturing moves for the pawn
+    cout << "For loop\n";
     for (auto yoffset : {-1, 1}) {
         if (pos.y + yoffset < 0 || pos.y + yoffset >= 8) {
             continue;
@@ -73,6 +77,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
             possibleMoves.push_back(pawnMove);
         }
     }
+    cout << "End for loop\n";
 
     //check for a simple forward step
     if (cells[xnew][pos.y]._status == CellStatus::EMPTY) {
@@ -81,16 +86,31 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     } else {
         return possibleMoves;
     }
+    cout << "End of first conditional statement\n";
 
     //checl fpr a double forward step, if this is the first move of the pawn,
     //and the path is empty
     bool doubleCond1 = pos.x == doubleStepIndex;
+    if (!doubleCond1) {
+        return possibleMoves;
+    }
     bool doubleCond2 = xnew + direction >= 0;
+    if (!doubleCond2) {
+        return possibleMoves;
+    }
     bool doubleCond3 = xnew + direction <= 7;
-    bool doubleCond4 = cells[xnew + direction][pos.x]._status == CellStatus::EMPTY;
+    if (!doubleCond3) {
+        return possibleMoves;
+    }
+    cout << "Condition 4\n";
+    bool doubleCond4 = cells[xnew + direction][pos.y]._status == CellStatus::EMPTY;
+    if (!doubleCond4) {
+        return possibleMoves;
+    }
+    cout << "End of condition 4\n";
     if (doubleCond1 && doubleCond2 && doubleCond3 && doubleCond4) {
         possibleMoves.push_back(Vector2i(xnew + direction, pos.y));
     }
-    
+    cout << "End of second conditional statement\n";
     return possibleMoves;
 }

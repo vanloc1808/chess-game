@@ -43,7 +43,7 @@ public:
 
     bool hasLegalMoves(const vector<vector<Cell>>& cells);
 
-    void checkKingSlot(bool check, vector<vector<Cell>>& cells);
+    void checkKingCell(bool check, vector<vector<Cell>>& cells);
 };
 
 #endif // _GAMEUSER_H_
