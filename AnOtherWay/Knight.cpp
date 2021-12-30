@@ -25,7 +25,6 @@ void Knight::draw(RenderWindow& window) {
 }
 
 vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cells) {
-    cout << "Knight compute\n";
     vector<ChessMove> possibleMoves;
 
     auto position = this->getPosition();
@@ -36,7 +35,6 @@ vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cell
         sf::Vector2i(-1, 2), sf::Vector2i(-1, -2),
         sf::Vector2i(-2, 1), sf::Vector2i(-2, -1)
     };
-    cout << "First for loop\n";
     for (int i = 0; i < offsets.size(); i++) {
         auto destination = position + offsets[i];
 
@@ -55,7 +53,6 @@ vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cell
             //don't increase like Queen or Bishop
         }
     }
-    cout << "End of first for loop\n";
 
     return possibleMoves;
 }

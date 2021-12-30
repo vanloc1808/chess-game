@@ -11,60 +11,46 @@ ChessBoard::ChessBoard(const string& name, RenderWindow& window) : _window(windo
 }
 
 void ChessBoard::run() {
-    cout << "Started to run\n";
     //load the sound
     utilities::AudioPlayer::loadSound();
     
-    cout << "Started to reset\n";
     this->reset();
-    cout << "Reset successfully\n";
 
-    cout << "Started to display\n";
     this->_window.display();
-    cout << "Display successfully\n";
 
     while (this->_window.isOpen() == true) {
         Event event;
-        cout << "In loop if isOpen()\n";
         while (this->_window.pollEvent(event) == true) {
             if (event.type == Event::Closed) {
-                cout << "Closed event\n";
                 this->_window.close();
             } 
             //exit by press escape key
             if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
-                cout << "Esc pressed event\n";
                 this->_window.close();
             }
 
             if (Mouse::isButtonPressed(Mouse::Left)) {
-                cout << "Left mouse button pressed\n";
                 this->onMouseClicked(Mouse::getPosition(this->_window));
             }
         }
-        cout << "Before clearing\n";
         this->_window.clear(Color(150, 150, 150));
-        cout << "After clearing\n";
-        cout << "Before drawing\n";
+
         this->drawBoard();
-        cout << "After drawing\n";
-        cout << "Before displaying\n";
+
         this->_window.display();
-        cout << "After displaying\n";
     }
 }
 
 void ChessBoard::reset() {
     this->_blackUser.setScore(0);
     this->_whiteUser.setScore(0);
-    cout << "Set score successfully\n";
+
     this->_blackUser.clearPieces();
     this->_whiteUser.clearPieces();
-    cout << "Clear pieces successfully\n";
+
     this->initializeBoard();
-    cout << "Initialize board successfully\n";
+
     this->populateBoard();
-    cout << "Populate board successfully\n";
 }
 
 void ChessBoard::initializeBoard() {
@@ -126,7 +112,6 @@ void ChessBoard::populateBoard() {
     Sprite sprite;
 
     float cellSize = utilities::Settings::getCellSize();
-    cout << "Started to create pieces vector\n";
     vector<shared_ptr<Piece>> pieces = {
         make_shared<Rook>(Rook(PieceColor::BLACK)),
         make_shared<Knight>(Knight(PieceColor::BLACK)),
@@ -146,14 +131,11 @@ void ChessBoard::populateBoard() {
         make_shared<Knight>(Knight(PieceColor::WHITE)),
         make_shared<Rook>(Rook(PieceColor::WHITE))
     };
-    cout << "Created pieces vector successfully\n";
     for (int i = 0; i < pieces.size(); i++) {
-        cout << "In loop with i = " << i << "\n";
         int row = (i / 8) * 7;
         int col = i % 8;
 
         for (int j = 0; j <= 1; j++) {
-            cout << "In sub-loop with j = " << j << "\n";
             if (j == 0) {
                 this->_cells[row][col]._piece = pieces[i];
             } else if (row == 0) {
@@ -164,20 +146,17 @@ void ChessBoard::populateBoard() {
                 this->_cells[row][col]._piece = make_shared<Pawn>(Pawn(PieceColor::WHITE));
                 
             }
-            cout << "Pass the first conditional statement\n";
 
             this->_cells[row][col]._status = CellStatus::OCCUPIED;
-            cout << "Started to set the position\n";
+
             this->_cells[row][col]._piece->getPieceSprite().setPosition(this->_cells[row][col]._rect.getPosition());
-            cout << "Set the position successfully\n";
+
             //add the pieces to the respective players
-            cout << "Started to add pieces\n";
             if (this->_cells[row][col]._piece->getPieceColor() == PieceColor::WHITE) {
                 this->_whiteUser.addPiece(this->_cells[row][col]._piece->getPieceType(), this->_cells[row][col]._piece);
             } else {
                 this->_blackUser.addPiece(this->_cells[row][col]._piece->getPieceType(), this->_cells[row][col]._piece);
             }
-            cout << "Added pieces successfully\n";
         }
     }
 
@@ -374,54 +353,37 @@ void ChessBoard::clearHighlightedCells() {
 }
 
 void ChessBoard::onMouseClicked(const Vector2i& position) {
-    cout << "onMouseClicked function\n";
     //check if the position is on the window
     if (utilities::assisstants::isOnWindowPosition(position) == false) {
         return;
     }
-    cout << "After conditional statement 1\n";
 
     Vector2i cellPosition(position.y / utilities::Settings::getCellSize(), position.x / utilities::Settings::getCellSize());
 
     if (this->_cells[cellPosition.x][cellPosition.y]._status == CellStatus::HIGHLIGHTED) {
-        cout << "Before onHighlighted... function\n";
         this->onHighlightedCellClicked(cellPosition);
-        cout << "After onHighlighted... function\n";
     } else if (this->_cells[cellPosition.x][cellPosition.y]._status == CellStatus::OCCUPIED) {
-        cout << "Before onOccupied... function\n";
         this->onOccupiedCellClicked(cellPosition);
-        cout << "After onOccupied... function\n";
     } else if (this->_cells[cellPosition.x][cellPosition.y]._status == CellStatus::EMPTY) {
-        cout << "Before onEmpty... function\n";
         this->clearHighlightedCells();
-        cout << "After onEmpty... function\n";
     }
 }
 
 void ChessBoard::onOccupiedCellClicked(const Vector2i& position) {
-    cout << "Before clear highlighted\n";
     this->clearHighlightedCells();
-    cout << "After clear highlighted\n";
 
     //if the player's color is not the same as the clicked piece, return
     if (this->_currentUser->getColor() != this->_cells[position.x][position.y]._piece->getPieceColor()) {
         return;
     }
 
-    cout << "Pass the conditional statement 1\n";
-
     this->_selectedPosition = Vector2i(position.x, position.y);
-    cout << "Successfully create selectedPosition\n";
 
     //filter the possible moves based on the checks
     vector<vector<Cell>> copyCells;
-    cout << "Initiazlied copyCells\n";
     this->_possibleMoves.clear();
-    cout << "Successfully cleared possibleMoves\n";
 
-    cout << "Before creating moves\n";
     vector<ChessMove> moves = this->_cells[position.x][position.y]._piece->computePossbibleMoves(this->_cells);
-    cout << "After creating moves\n";
     
     int row;
     if (this->_currentUser->getColor() == PieceColor::WHITE) {
@@ -429,7 +391,6 @@ void ChessBoard::onOccupiedCellClicked(const Vector2i& position) {
     } else {
         row = 0;
     }
-    cout << "Row = " << row << "\n";
 
     bool isShortCastling = false;
     bool isLongCastling = false;
@@ -440,7 +401,6 @@ void ChessBoard::onOccupiedCellClicked(const Vector2i& position) {
                 continue;
             }
         }
-        cout << "Pass the long/short castling condition\n";
 
         copyCells = this->_cells;
         copyCells[moves[i]._position.x][moves[i]._position.y]._piece = nullptr;
@@ -448,31 +408,22 @@ void ChessBoard::onOccupiedCellClicked(const Vector2i& position) {
         copyCells[position.x][position.y]._status = CellStatus::EMPTY;
         copyCells[moves[i]._position.x][moves[i]._position.y]._status = CellStatus::OCCUPIED;
 
-        cout << "Before the conditional checked copyCells\n";
         if (this->_currentUser->isChecked(copyCells) == false) {
-            cout << "To the statement\n";
             if (moves[i]._position == Vector2i(row, 5)) {
-                cout << "Row, 5\n";
                 isShortCastling = true;
             } else if (moves[i]._position == Vector2i(row, 3)) {
-                cout << "Row, 3\n";
                 isLongCastling = true;
             } else if (moves[i]._type == MoveType::SHORT_CASTLING && isShortCastling == false) {
-                cout << "Short castle\n";
                 continue;
             } else if (moves[i]._type == MoveType::LONG_CASTLING && isLongCastling == false) {
-                cout << "Long castle\n";
                 continue;
             }
-            cout << "Before pushing back\n";
+
             this->_possibleMoves.push_back(moves[i]);
-            cout << "After pushing back\n";
         }
-        cout << "After the conditional checked copyCells\n";
     }
-    cout << "Before showing possible moves\n";
+
     this->showPossibleMoves(this->_possibleMoves);
-    cout << "After showing possible moves\n";
 }
 
 void ChessBoard::onHighlightedCellClicked(const Vector2i& position) {
