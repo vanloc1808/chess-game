@@ -8,6 +8,11 @@ ChessBoard::ChessBoard(const string& name, RenderWindow& window) : _window(windo
     this->_window.setFramerateLimit(120);
 
     this->_window.setTitle(name);
+
+    Image gameIcon;
+    gameIcon.loadFromFile("resources/icons/ChessIcon.png");
+
+    window.setIcon(gameIcon.getSize().x, gameIcon.getSize().y, gameIcon.getPixelsPtr());
 }
 
 void ChessBoard::run() {
