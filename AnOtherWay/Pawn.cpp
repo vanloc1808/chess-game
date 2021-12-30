@@ -87,23 +87,25 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     //checl fpr a double forward step, if this is the first move of the pawn,
     //and the path is empty
     bool doubleCond1 = pos.x == doubleStepIndex;
-    if (doubleCond1 == false) {
+    if (!doubleCond1) {
         return possibleMoves;
     }
     bool doubleCond2 = xnew + direction >= 0;
-    if (doubleCond2 == false) {
+    if (!doubleCond2) {
         return possibleMoves;
     }
     bool doubleCond3 = xnew + direction <= 7;
-    if (doubleCond3 == false) {
+    if (!doubleCond3) {
         return possibleMoves;
     }
     bool doubleCond4 = cells[xnew + direction][pos.y]._status == CellStatus::EMPTY;
-    if (doubleCond4 == false) {
+    if (!doubleCond4) {
         return possibleMoves;
     }
-
-    possibleMoves.push_back(Vector2i(xnew + direction, pos.y));
-
+    cout << "End of condition 4\n";
+    if (doubleCond1 && doubleCond2 && doubleCond3 && doubleCond4) {
+        possibleMoves.push_back(Vector2i(xnew + direction, pos.y));
+    }
+    cout << "End of second conditional statement\n";
     return possibleMoves;
 }
