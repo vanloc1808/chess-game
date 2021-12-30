@@ -26,11 +26,13 @@ void Bishop::draw(RenderWindow& window) {
 
 vector<ChessMove> Bishop::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
+    cout << "Bishop compute\n";
 
     vector<ChessMove> possibleMoves;
 
     vector<Vector2i> offsets = {Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)};
 
+    cout <<"First for loop\n";
     for (int i = 0; i < offsets.size(); i++) {
         Vector2i destination = pos + offsets[i];
 
@@ -58,6 +60,7 @@ vector<ChessMove> Bishop::computePossbibleMoves(const vector<vector<Cell>>& cell
             }
         }
     }
+    cout << "End for loop\n";
 
     return possibleMoves;
 }

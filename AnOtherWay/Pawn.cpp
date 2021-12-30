@@ -31,6 +31,7 @@ void Pawn::draw(RenderWindow& window) {
 
 vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
+    cout <<"Pawn compute\n";
 
     vector<ChessMove> possibleMoves;
 
@@ -63,6 +64,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     }
 
     //check the possible capturing moves for the pawn
+    cout << "For loop\n";
     for (auto yoffset : {-1, 1}) {
         if (pos.y + yoffset < 0 || pos.y + yoffset >= 8) {
             continue;
@@ -75,6 +77,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
             possibleMoves.push_back(pawnMove);
         }
     }
+    cout << "End for loop\n";
 
     //check for a simple forward step
     if (cells[xnew][pos.y]._status == CellStatus::EMPTY) {
@@ -83,6 +86,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     } else {
         return possibleMoves;
     }
+    cout << "End of first conditional statement\n";
 
     //checl fpr a double forward step, if this is the first move of the pawn,
     //and the path is empty
@@ -98,6 +102,7 @@ vector<ChessMove> Pawn::computePossbibleMoves(const vector<vector<Cell>>& cells)
     if (!doubleCond3) {
         return possibleMoves;
     }
+    cout << "Condition 4\n";
     bool doubleCond4 = cells[xnew + direction][pos.y]._status == CellStatus::EMPTY;
     if (!doubleCond4) {
         return possibleMoves;

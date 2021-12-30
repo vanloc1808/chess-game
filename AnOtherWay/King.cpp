@@ -28,9 +28,11 @@ void King::draw(RenderWindow& window) {
 
 vector<ChessMove> King::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
+    cout << "King compute\n";
 
     vector<ChessMove> possibleMoves;
     
+    cout << "For loop\n";
     for (int i = pos.x - 1; i <= pos.x + 1; i++) {
         for (int j = pos.y - 1; j <= pos.y + 1; j++) {
             //filter the same position as before
@@ -48,6 +50,7 @@ vector<ChessMove> King::computePossbibleMoves(const vector<vector<Cell>>& cells)
             }
         }
     }
+    cout << "End for loop\n";
 
     //check for castles (both short one and long one)
     //both the King and the Rook have not moved yet
