@@ -26,8 +26,6 @@ void Rook::draw(RenderWindow& window) {
 vector<ChessMove> Rook::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i pos = this->getPosition();
 
-    cout << "Rook compute\n";
-
     vector<ChessMove> possibleMoves;
 
     vector<Vector2i> offsets = {
@@ -35,7 +33,7 @@ vector<ChessMove> Rook::computePossbibleMoves(const vector<vector<Cell>>& cells)
         Vector2i(0, 1), Vector2i(0, -1),
         Vector2i(-1, 0)        
     };
-    cout << "For loop\n";
+
     for (int i = 0; i < offsets.size(); i++) {
         Vector2i destination = pos + offsets[i];
 
@@ -63,7 +61,6 @@ vector<ChessMove> Rook::computePossbibleMoves(const vector<vector<Cell>>& cells)
             }
         }
     }
-    cout << "End for loopn\n";
 
     return possibleMoves;
 }
