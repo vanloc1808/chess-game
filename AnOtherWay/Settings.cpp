@@ -2,10 +2,10 @@
 
 namespace utilities {
     //set the default value for static attributes
-    Color Settings::_blackSquareColor = Color(125, 135, 150);
-    Color Settings::_whiteSquareColor = Color(232, 235, 239);
+    Color Settings::_blackSquareColor = Color(119, 120, 122);
+    Color Settings::_whiteSquareColor = Color(244, 244, 211);
     Color Settings::_highlightedColor = Color(50, 50, 50, 60);
-    Color Settings::_checkedColor = Color(180, 0, 0);
+    Color Settings::_checkedColor = Color(255, 0, 0);
 
     float Settings::_emptyHighlightedScale = 0.3;
     float Settings::_occupiedHighlightedScale = 0.7;
