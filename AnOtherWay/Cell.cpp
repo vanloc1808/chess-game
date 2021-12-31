@@ -6,8 +6,8 @@ bool Cell::getIsChecked() {
     return this->_isChecked;
 }
 
-void Cell::highlight(bool highlightSlot) {
-    if (highlightSlot == true) {
+void Cell::highlight(bool highlightCell) {
+    if (highlightCell == true) {
         this->_status = CellStatus::HIGHLIGHTED;
 
         if (this->_piece == nullptr) {

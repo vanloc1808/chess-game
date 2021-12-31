@@ -37,7 +37,7 @@ public:
 
     bool getIsChecked();
 
-    void highlight(bool highlightSlot);
+    void highlight(bool highlightCell);
 
     void setIsChecked(bool check);
 
