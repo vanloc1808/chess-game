@@ -2,8 +2,15 @@
 
 namespace utilities {
     namespace assisstants {
+        //color: color of the piece
+        //type: type of the piece (King, Queen, Bishop, Knight, Rook, Pawn)
         string getPieceLocation(PieceColor color, PieceType type) {
+            //location of folder containing images of pieces
             string location = "resources/images/pieces/";
+
+            //formula of file names: color + type + .png
+
+            //the following conditional statements can be replaced by switch statements
 
             if (color == PieceColor::WHITE) {
                 location += "White";
@@ -33,8 +40,12 @@ namespace utilities {
         }
 
         string getSoundLocation(GameSound soundType) {
+            //location of folder containing sound effects
             string location = "resources/sounds/";
 
+            //formula of file names: soundType + "Sound.ogg";
+            //sound effects from this link:
+            //https://github.com/mbusy/chess/tree/master/resources/sounds
             if (soundType == GameSound::CAPTURE) {
                 location += "Capture";
             } else if (soundType == GameSound::CHECK) {
@@ -56,7 +67,7 @@ namespace utilities {
         //it will be a valid position on board if
         //x >= 0 && x < 8
         //and y >= 0 && y < 8
-        //this function will be called to implement the other two
+        //this function will be called to implement the other overloaded functions with the same name
         bool isOnBoardPosition(int x, int y) {
             return (x >= 0 && x < 8 && y >= 0 && y < 8);
         }
@@ -76,6 +87,8 @@ namespace utilities {
             return (condition1 && condition2);
         }
 
+        //formula of converting functions from this link:
+        //https://github.com/mbusy/chess/blob/master/src/utils/helpers.cpp
         Vector2f convertToDrawablePosition(int x, int y) {
             return convertToDrawablePosition(Vector2i(x, y));
         }

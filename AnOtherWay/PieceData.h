@@ -1,7 +1,7 @@
 #ifndef _PIECEDATA_H_
 #define _PIECEDATA_H_
 
-//an enum class to define the type of a pieec
+//an enum class to define the type of a piece
 enum class PieceType {
     KING,
     QUEEN,
@@ -18,6 +18,7 @@ enum class PieceDirection {
 
 };
 
+//enum class to define the color of pieces, also be used to define the color of players
 enum class PieceColor{
     BLACK,
     WHITE,
