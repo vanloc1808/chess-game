@@ -1,8 +1,8 @@
 #include "ChessBoard.h"
 
 int main() {
-    //std::cout << "No compilation error\n";
-
+    
+    try {
     string name = "Chess game";
     int width = 800;
     int length = 800;
@@ -14,6 +14,11 @@ int main() {
 
     ChessBoard chessboard(name, window);
     chessboard.run();
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return 0;
 }
