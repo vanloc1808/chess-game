@@ -6,6 +6,7 @@ GameUser::GameUser(PieceColor color) {
     this->_userColor = color;
 }
 
+//destructor, no need to do anything
 GameUser::~GameUser() {
 
 }
@@ -23,10 +24,13 @@ void GameUser::setScore(int scr) {
 }
 
 void GameUser::addPiece(PieceType type, const shared_ptr<Piece>& piece) {
+    //check if the color of the piece added is the same
+    //with the color of player
     if (piece->getPieceColor() != this->_userColor) {
         throw std::runtime_error("Colors of the piece added and the user don't match");
     }
 
+    //we can manage if this piece has been added yet, so we do not need to check
     weak_ptr<Piece> ptr = piece;
     this->_pieces[type].push_back(ptr);
 }
@@ -46,6 +50,8 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
             }
             else if (cells[i][j]._piece->getPieceType() == PieceType::KING && cells[i][j]._piece->getPieceColor() == this->_userColor) {
                 pos = Vector2i(i, j);
+
+                break;
             }
         }
     }
@@ -57,6 +63,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     }
 
     //check if the King is checked by the Bishops, Rooks or Queen
+    //there is 8 directions need checking
     vector<vector<Vector2i>> offsets = {
         {Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1),},
         {Vector2i(1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(-1, 0)}
@@ -71,6 +78,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
         for (int j = 0; j < offsets[i].size(); j++) {
             Vector2i destination = pos + offsets[i][j];
 
+            //check as far as possible to each direction of the eight ones
             while (true) {
                 if (utilities::assisstants::isOnBoardPosition(destination) == false) {
                     break;
@@ -93,6 +101,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     }
 
     //check if the King is checked by Knights
+    //there is 8 directions need checking
     vector<Vector2i> knightOffsets = {
         Vector2i(2, 1), Vector2i(2, -1),
         Vector2i(1, 2), Vector2i(1, -2),
@@ -101,6 +110,8 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     };
 
     for (int i = 0; i < knightOffsets.size(); i++) {
+        //do not need to check as far as possible,
+        //because the Knight can only move one L-shape at a time
         Vector2i destination = pos + knightOffsets[i];
 
         if (utilities::assisstants::isOnBoardPosition(destination) == false) {
@@ -117,6 +128,7 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     }
 
     //check if the King is checked by Pawns
+    //there is 2 directions need checking
     float xoffset;
     if (this->_userColor == PieceColor::WHITE) {
         xoffset = -1;
@@ -145,6 +157,11 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     }
 
     //check if the King is checked by the King
+    //there is 8 directions need checking
+    //however, this situation seems unreasonable, 
+    //because if this King is checked by the other one,
+    //it can capture the other one, so it is not checked
+    //but ... I still check it here
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             Vector2i destination = pos + Vector2i(i, j);
@@ -166,6 +183,8 @@ bool GameUser::isChecked(const vector<vector<Cell>>& cells) {
     return false;
 }
 
+//check if this user has any legal moves left
+//only be used when this user is checked
 bool GameUser::hasLegalMoves(const vector<vector<Cell>>& cells) {
     vector<ChessMove> possibleMoves;
 
@@ -183,15 +202,17 @@ bool GameUser::hasLegalMoves(const vector<vector<Cell>>& cells) {
 
             auto piece = piecePtr.lock();
 
-            //we don't study King's moves in this loop
+            //we don't consider King's moves in this loop
             if (piece->getPieceType() == PieceType::KING) {
                 king = piece;
                 continue;
             }
 
+            //find the position and possible moves of this piece
             pos = piece->getPosition();
             possibleMoves = piece->computePossbibleMoves(cells);
 
+            //check if there is any move so that the King will not be checked
             for (const auto& move : possibleMoves) {
                 copyCells = cells;
 
@@ -207,10 +228,13 @@ bool GameUser::hasLegalMoves(const vector<vector<Cell>>& cells) {
         }
     }
 
+    //there is no King (!)
     if (king == nullptr) {
         throw std::runtime_error("No King found for this user");
     }
 
+    //if there is no possible move of the other pieces so that the King will not be checked,
+    //check if there is any possible moves of the King
     pos = king->getPosition();
     possibleMoves = king->computePossbibleMoves(cells);
 

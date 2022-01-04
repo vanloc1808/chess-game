@@ -5,15 +5,16 @@
 
 class King : public Piece {
 private:
-    static const int _pieceValue = 0;
+    static const int _pieceValue = 10;//value of the King is a special number, if we lose the King, we lose the game
 protected:
 
 public:
     //https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean
-    explicit King(PieceColor pieceColor = PieceColor::WHITE);
+    explicit King(PieceColor pieceColor = PieceColor::WHITE); //fully-parameterized constructor
 
     ~King();
 
+    //re-define pure virtual methods in class Piece
     int getPieceValue();
 
     void draw(RenderWindow& window);

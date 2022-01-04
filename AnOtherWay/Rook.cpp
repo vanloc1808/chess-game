@@ -11,8 +11,9 @@ Rook::Rook(PieceColor pieceColor) {
     this->loadTexture();
 }
 
+//destructor, no need to do anything
 Rook::~Rook() {
-    //do nothing
+    
 }
 
 int Rook::getPieceValue() {
@@ -28,6 +29,8 @@ vector<ChessMove> Rook::computePossbibleMoves(const vector<vector<Cell>>& cells)
 
     vector<ChessMove> possibleMoves;
 
+    //the Rook can move unlimtedly to any line direction
+    //there is 4 directions in total
     vector<Vector2i> offsets = {
         Vector2i(1, 0),
         Vector2i(0, 1), Vector2i(0, -1),
@@ -37,13 +40,15 @@ vector<ChessMove> Rook::computePossbibleMoves(const vector<vector<Cell>>& cells)
     for (int i = 0; i < offsets.size(); i++) {
         Vector2i destination = pos + offsets[i];
 
+        //this while loop will find the longest distance to every direction
+        //that the Rook can move to
         while (true) {
             //break if destination is out of board
             if (utilities::assisstants::isOnBoardPosition(destination) == false) {
                 break;
             }
 
-            //check if the destination is empty
+            //check if the destination is empty or occupied
             if (cells[destination.x][destination.y]._status == CellStatus::OCCUPIED) {
                 //if that cell is occupied,check if that is ally or enemy
                 if (cells[destination.x][destination.y]._piece->getPieceColor() != this->_pieceColor) {

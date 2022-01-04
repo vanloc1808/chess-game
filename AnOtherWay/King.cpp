@@ -14,8 +14,9 @@ King::King(PieceColor pieceColor) {
     this->loadTexture();
 }
 
+//destructor, no need to do anything
 King::~King() {
-    //do nothing
+    
 }
 
 int King::getPieceValue() {
@@ -41,8 +42,10 @@ vector<ChessMove> King::computePossbibleMoves(const vector<vector<Cell>>& cells)
 
             Cell cell = cells[i][j];
 
+            //check if the destination is empty or occupied
+            //if that cell is occupied, check if that is ally or enemy
             if (cell._status == CellStatus::OCCUPIED && cell._piece->getPieceColor() == this->_pieceColor) {
-                continue; //ally piece, can not move to or capture
+                continue; //ally piece (same color), can not move to or capture
             } else {
                 possibleMoves.push_back(ChessMove(Vector2i(i, j)));
             }
@@ -53,7 +56,11 @@ vector<ChessMove> King::computePossbibleMoves(const vector<vector<Cell>>& cells)
     //both the King and the Rook have not moved yet
     //cells between them are all empty
     if (this->_hasMoved == false) {
+        //if the condition is true, aka the King has not moved yet
+        //then we do not need to check if pos.y + 3 or pos.y - 4 is out of board
+
         //check for short castle
+        //with the Rook on the right side of players' looking direction
         bool shortCond1 = cells[pos.x][pos.y + 1]._status == CellStatus::EMPTY;
         bool shortCond2 = cells[pos.x][pos.y + 2]._status == CellStatus::EMPTY;
         bool shortCond3 = cells[pos.x][pos.y + 3]._status == CellStatus::OCCUPIED;
@@ -64,6 +71,7 @@ vector<ChessMove> King::computePossbibleMoves(const vector<vector<Cell>>& cells)
         }
 
         //check for long castle
+        //with the Rook on the left side of players' looking direction
         bool longCond1 = cells[pos.x][pos.y - 1]._status == CellStatus::EMPTY;
         bool longCond2 = cells[pos.x][pos.y - 2]._status == CellStatus::EMPTY;
         bool longCond3 = cells[pos.x][pos.y - 3]._status == CellStatus::EMPTY;

@@ -12,8 +12,9 @@ Knight::Knight(PieceColor pieceColor) {
     this->loadTexture();
 }
 
+//destructor, no need to do anything
 Knight::~Knight() {
-    //do nothing
+    
 }
 
 int Knight::getPieceValue() {
@@ -25,10 +26,12 @@ void Knight::draw(RenderWindow& window) {
 }
 
 vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cells) {
+    Vector2i position = this->getPosition();
+
     vector<ChessMove> possibleMoves;
 
-    auto position = this->getPosition();
-
+    //the Knight can move once in a letter L - shape
+    //there is 8 directions in total
     vector<sf::Vector2i> offsets = {
         sf::Vector2i(2, 1), sf::Vector2i(2, -1),
         sf::Vector2i(1, 2), sf::Vector2i(1, -2),
@@ -38,19 +41,21 @@ vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cell
     for (int i = 0; i < offsets.size(); i++) {
         auto destination = position + offsets[i];
 
+        //check if destination is out of board
         if (utilities::assisstants::isOnBoardPosition(destination) == false) {
             continue;
         }
 
+        //check if the destination is empty or occupied
         if (cells[destination.x][destination.y]._status == CellStatus::OCCUPIED) {
+            //if that is enemy, add it to possible moves
             if (cells[destination.x][destination.y]._piece->getPieceColor() != this->_pieceColor) {
-
                 possibleMoves.push_back(destination);
             }
         }
         else {
             possibleMoves.push_back(destination);
-            //don't increase like Queen or Bishop
+            //with the Knight, we do not increase += like Queen or Bishop or Rook
         }
     }
 

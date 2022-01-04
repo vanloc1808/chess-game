@@ -24,43 +24,51 @@ using namespace std;
 
 class ChessBoard {
 private:
-    float _cellSize;
+    float _cellSize; //size of cell
 
-    RenderWindow& _window;
+    RenderWindow& _window; //game window
+    //document of RenderWindow of SFML here:
+    //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1RenderWindow.php
+    //We see others use RenderWindow&, so we do the same
 
-    vector<vector<Cell>> _cells;
+    vector<vector<Cell>> _cells; //the 2D vector of cells
 
-    Vector2i _selectedPosition;
+    Vector2i _selectedPosition; //the position of the selected cell
 
-    vector<ChessMove> _possibleMoves;
+    vector<ChessMove> _possibleMoves; //vector of possible moves
 
-    GameUser _whiteUser;
+    GameUser _whiteUser; //white player
 
-    GameUser _blackUser;
+    GameUser _blackUser; //black player
 
-    shared_ptr<GameUser> _currentUser;
+    shared_ptr<GameUser> _currentUser; //current player
 
-    void initializeBoard();
+    //the following methods are marked as private to ensure encapsulation
+    //the others class will only know the run() and reset() methods
+    //they will not know how they process
+    void initializeBoard(); //initialize the board
 
-    void populateBoard();
+    void populateBoard(); //populate the board
 
-    void drawBoard();
+    void drawBoard(); //draw the board
 
-    void showPossibleMoves(const vector<ChessMove>& positions);
+    void showPossibleMoves(const vector<ChessMove>& positions); //show possible positions that can be moved to
 
-    void movePiece(Cell& originCell, Cell& destinationCell);
+    void movePiece(Cell& originCell, Cell& destinationCell); //move the piece from origin cell to destination cell
 
-    void capturePiece(Cell& cell);
+    void capturePiece(Cell& cell); //capture the piece in the cell
 
-    void promotePiece(Cell& cell);
+    void promotePiece(Cell& cell); //promote the Pawn
 
-    void clearHighlightedCells();
+    void clearHighlightedCells(); //clear the highlighted cells
 
-    void onMouseClicked(const Vector2i& position);
+    //document for Mouse class of SFML here:
+    //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Mouse.php
+    void onMouseClicked(const Vector2i& position); //process the mouse click event
 
-    void onOccupiedCellClicked(const Vector2i& position);
+    void onOccupiedCellClicked(const Vector2i& position); //process the mouse click event on occupied cell
 
-    void onHighlightedCellClicked(const Vector2i& position);
+    void onHighlightedCellClicked(const Vector2i& position); //process the mouse click event on highlighted cell
 protected:
 
 public:
@@ -69,13 +77,15 @@ public:
         BOARD_HEIGHT = 8
     };
 
-    ChessBoard(RenderWindow& window);
+    ChessBoard(RenderWindow& window); //partly-parameterized constructor
 
-    ChessBoard(const string& name, RenderWindow& window);
+    ChessBoard(const string& name, RenderWindow& window); //fully-parameterized constructor
 
-    void run();
+    ~ChessBoard(); //destructor
 
-    void reset();
+    void run(); //run the chessboard
+
+    void reset(); //reset the chessboard
 };
 
 

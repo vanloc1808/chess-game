@@ -5,10 +5,12 @@ namespace utilities {
 
     map<GameSound, SoundBuffer> AudioPlayer::_bufferMap;
 
+    //default constructor, no need to do anything
     AudioPlayer::AudioPlayer() {
 
     }
 
+    //destructor, no need to do anything
     AudioPlayer::~AudioPlayer() {
 
     }

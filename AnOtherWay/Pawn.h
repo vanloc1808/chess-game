@@ -10,10 +10,11 @@ protected:
 
 public:
 //https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean
-    explicit Pawn(PieceColor pieceColor = PieceColor::WHITE);
+    explicit Pawn(PieceColor pieceColor = PieceColor::WHITE); //fully-parameterized constructor
 
     ~Pawn();
 
+    //re-define pure virtual methods in class Piece
     int getPieceValue();
 
     void draw(RenderWindow& window);

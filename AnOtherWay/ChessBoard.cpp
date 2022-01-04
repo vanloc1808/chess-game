@@ -1,21 +1,31 @@
 #include "ChessBoard.h"
 
+//call the fully-paramerized constructor
 ChessBoard::ChessBoard(RenderWindow& window) : ChessBoard("ChessBoard", window) {
 
 }
 
 ChessBoard::ChessBoard(const string& name, RenderWindow& window) : _window(window), _whiteUser(PieceColor::WHITE), _blackUser(PieceColor::BLACK) {
+    //set the window title and frame limit
     this->_window.setFramerateLimit(120);
 
     this->_window.setTitle(name);
 }
 
+//destructor, no need to do anything
+ChessBoard::~ChessBoard() {
+
+}
+
+//main function, process the window events and draw the board
 void ChessBoard::run() {
     //load the sound
     utilities::AudioPlayer::loadSound();
     
+    //reset the board
     this->reset();
 
+    //display the window
     this->_window.display();
 
     while (this->_window.isOpen() == true) {
@@ -29,10 +39,13 @@ void ChessBoard::run() {
                 this->_window.close();
             }
 
+            //process the mouse clicked event
+            //check if the left mouse is clicked
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 this->onMouseClicked(Mouse::getPosition(this->_window));
             }
         }
+
         this->_window.clear(Color(150, 150, 150));
 
         this->drawBoard();
@@ -42,12 +55,15 @@ void ChessBoard::run() {
 }
 
 void ChessBoard::reset() {
+    //reset the score
     this->_blackUser.setScore(0);
     this->_whiteUser.setScore(0);
 
+    //clear pieces
     this->_blackUser.clearPieces();
     this->_whiteUser.clearPieces();
 
+    //initialize and populate the board
     this->initializeBoard();
 
     this->populateBoard();
@@ -61,21 +77,26 @@ void ChessBoard::initializeBoard() {
 
     float cellSize = utilities::Settings::getCellSize();
 
+    //clear and resize the cells
     this->_cells.clear();
-    this->_cells.resize(BOARD_WIDTH);
+    this->_cells.resize(BOARD_HEIGHT);
 
+    //BOARD_HEIGHT == BOARD_WIDTH
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         this->_cells[i].resize(BOARD_WIDTH);
 
         for (int j = 0; j < BOARD_WIDTH; j++) {
             this->_cells[i][j]._rect.setSize(Vector2f(cellSize, cellSize));
 
+            //determine the color of the cell
             Color colorToFill;
             if (white == true) {
                 colorToFill = utilities::Settings::getWhiteSquareColor();
             } else {
                 colorToFill = utilities::Settings::getBlackSquareColor();
             }
+
+            //process with RectangleShape class of SFML
             this->_cells[i][j]._rect.setFillColor(colorToFill);
 
             this->_cells[i][j]._rect.setPosition(utilities::assisstants::convertToDrawablePosition(i, j));
@@ -97,13 +118,17 @@ void ChessBoard::initializeBoard() {
             Vector2f pos = utilities::assisstants::convertToDrawablePosition(i, j);
             this->_cells[i][j]._highlightedCircle.setPosition(pos.x + cellSize / 2.00, pos.y + cellSize/2.00);
 
+            //switch the color of the cell
             white = !white;
         }
 
+        //switch the color of the cell
+        //at the end of each line, we need to switch the color again
         white = !white;
     }
 }
 
+//populate the board, aka place the pieces to their positions
 void ChessBoard::populateBoard() {
     if (this->_cells.empty() == true) {
         throw std::runtime_error("Cannot populate chess board because it has not been initialized yet!\n");
@@ -132,6 +157,7 @@ void ChessBoard::populateBoard() {
         make_shared<Rook>(Rook(PieceColor::WHITE))
     };
     for (int i = 0; i < pieces.size(); i++) {
+        //variable row only has the value of 0 or 7
         int row = (i / 8) * 7;
         int col = i % 8;
 
@@ -151,7 +177,7 @@ void ChessBoard::populateBoard() {
 
             this->_cells[row][col]._piece->getPieceSprite().setPosition(this->_cells[row][col]._rect.getPosition());
 
-            //add the pieces to the respective players
+            //add the pieces to the appropriate players
             if (this->_cells[row][col]._piece->getPieceColor() == PieceColor::WHITE) {
                 this->_whiteUser.addPiece(this->_cells[row][col]._piece->getPieceType(), this->_cells[row][col]._piece);
             } else {
@@ -170,7 +196,7 @@ void ChessBoard::drawBoard() {
             //draw the cell rectangle (square actually)
             this->_window.draw(this->_cells[i][j]._rect);
 
-            //check the king's cell if we detec a check
+            //check the king's cell if we detect a check
             if (this->_cells[i][j].getIsChecked() == true) {
                 this->_window.draw(this->_cells[i][j]._checkedRect);
             }
@@ -195,6 +221,7 @@ void ChessBoard::showPossibleMoves(const vector<ChessMove>& positions){
 }
 
 void ChessBoard::movePiece(Cell& originCell, Cell& destinationCell) {
+    //check if the board is empty or the origin cell is empty
     if (this->_cells.empty() == true) {
         throw std::runtime_error("Cannot move pieces because the board is empty");
     } else if (originCell._status == CellStatus::EMPTY) {
@@ -204,6 +231,8 @@ void ChessBoard::movePiece(Cell& originCell, Cell& destinationCell) {
     //check that the destination is valid,
     //aka it exists in the possible moves vector
     ChessMove requiredMove;
+    requiredMove._position.x = -1;
+    requiredMove._position.y = -1;
 
     Vector2i destinationIndex = utilities::assisstants::convertToBoardIndex(destinationCell._rect.getPosition());
 
@@ -274,15 +303,18 @@ void ChessBoard::capturePiece(Cell& cell) {
     }
 
     //increase the score of the user who have just captured enemy's piece
+    //but why it did not work when I tried to show the score in the game?
     this->_currentUser->setScore(this->_currentUser->getScore() + cell._piece->getPieceValue());
 
     //remove the captured piece;
     cell._piece = nullptr;
 }
 
+//https://github.com/mbusy/chess/blob/master/src/chessboard.cpp
 void ChessBoard::promotePiece(Cell& cell) {
     vector<RectangleShape> rectangles;
 
+    //list of pieces that the Pawn can be promoted to
     vector<shared_ptr<Piece>> pieces = {
         make_shared<Rook>(Rook(this->_currentUser->getColor())),
         make_shared<Knight>(Knight(this->_currentUser->getColor())),
@@ -308,6 +340,7 @@ void ChessBoard::promotePiece(Cell& cell) {
     while (true) {
         this->_window.waitEvent(event);
 
+        //Esc key pressed, aka quit the game
         if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
             this->_window.close();
             
@@ -331,6 +364,7 @@ void ChessBoard::promotePiece(Cell& cell) {
 
     PieceColor color = this->_currentUser->getColor();
 
+    //select the piece to be promote to
     if (selectedRow == 2) {
         cell._piece = make_shared<Rook>(Rook(color));
     } else if (selectedRow == 3) {
@@ -360,6 +394,7 @@ void ChessBoard::onMouseClicked(const Vector2i& position) {
 
     Vector2i cellPosition(position.y / utilities::Settings::getCellSize(), position.x / utilities::Settings::getCellSize());
 
+    //check the status and call the appropriate function
     if (this->_cells[cellPosition.x][cellPosition.y]._status == CellStatus::HIGHLIGHTED) {
         this->onHighlightedCellClicked(cellPosition);
     } else if (this->_cells[cellPosition.x][cellPosition.y]._status == CellStatus::OCCUPIED) {

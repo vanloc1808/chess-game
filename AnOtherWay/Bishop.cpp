@@ -12,8 +12,9 @@ Bishop::Bishop(PieceColor pieceColor) {
     this->loadTexture();
 }
 
+//destructor, no need to do anything
 Bishop::~Bishop() {
-    //do nothing
+    
 }
 
 int Bishop::getPieceValue() {
@@ -29,18 +30,22 @@ vector<ChessMove> Bishop::computePossbibleMoves(const vector<vector<Cell>>& cell
 
     vector<ChessMove> possibleMoves;
 
+    //the Bishop can move unlimtedly to any diagonal direction
+    //there is 4 directions in total
     vector<Vector2i> offsets = {Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)};
 
     for (int i = 0; i < offsets.size(); i++) {
         Vector2i destination = pos + offsets[i];
 
+        //this while loop will find the longest distance to every direction
+        //that the Bishop can move to
         while (true) {
             //break if destination is out of board
             if (utilities::assisstants::isOnBoardPosition(destination) == false) {
                 break;
             }
 
-            //check if the destination is empty
+            //check if the destination is empty or occpuied
             if (cells[destination.x][destination.y]._status == CellStatus::OCCUPIED) {
                 //if that cell is occupied,check if that is ally or enemy
                 if (cells[destination.x][destination.y]._piece->getPieceColor() != this->_pieceColor) {
