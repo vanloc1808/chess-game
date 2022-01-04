@@ -14,50 +14,62 @@ using namespace sf;
 class Cell;
 
 
-//this is an abstract class
+//this is an abstract class, to define the general class Piece
+//we can use this class to define the general class of all chess pieces
+//6 classes (King, Queen, Rook, Bishop, Knight, Pawn) inherit from this class
 class Piece {
 private:
 
+//define the attributes as protected so that the derived classes can access them
 protected:
-    static map<PieceColor, map<PieceType, Texture>> _textureMap;
+    //map of textures
+    //documents of Texture class of SFML here:
+    //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Texture.php
+    static map<PieceColor, map<PieceType, Texture>> _textureMap; 
 
-    PieceType _pieceType;
+    PieceType _pieceType; //type of the piece (K, Q, B, Kn, R, P)
 
-    PieceDirection _pieceDirection;
+    PieceDirection _pieceDirection; //direction of piece (for pawns)
 
-    PieceColor _pieceColor;
+    PieceColor _pieceColor; //color of piece (B/W)
 
-    Sprite _pieceSprite;
+    //sprite of piece
+    //documents of Sprite class of SFML here:
+    //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Sprite.php
+    Sprite _pieceSprite; 
 
+    //attributes to determine that if this piece has moved or not
+    //mostly use for the King and Rook when considering if we can take a castling
     bool _hasMoved = false;
 
-    void loadTexture();
+    void loadTexture(); //method for loading texture from file location
 public:
-    Piece();
+    Piece(); //default constructor
 
-    //virtual ~Piece();
+    //virtual ~Piece(); //I dont know why it says that there is an error here, so I commented it
 
-    virtual int getPieceValue() = 0;
+    //the following three are pure virtual functions
+    //it will be defined in the derived classes
+    virtual int getPieceValue() = 0; //get the value of piece
 
-    virtual void draw(RenderWindow& window) = 0;
+    virtual void draw(RenderWindow& window) = 0; //draw this piece
 
-    //CellList = 2D vector of Cell
-    virtual vector<ChessMove> computePossbibleMoves(const vector<vector<Cell>>& cells) = 0;
+    virtual vector<ChessMove> computePossbibleMoves(const vector<vector<Cell>>& cells) = 0; //compute the current possible moves of this piece
 
-    //getters
-    PieceType getPieceType();
+    //the following six methods are getters for the attributes
+    PieceType getPieceType(); //get the type of piece
 
-    PieceDirection getPieceDirection();
+    PieceDirection getPieceDirection(); //get the direction of piece
 
-    PieceColor getPieceColor();
+    PieceColor getPieceColor(); //get the color of piece
 
-    Sprite& getPieceSprite();
+    Sprite& getPieceSprite(); //get the sprite of piece
 
-    Vector2i getPosition();
+    Vector2i getPosition(); //get the position of piece
 
-    bool getHasMoved();
+    bool getHasMoved(); //get if this piece has moved or not
 
-    void markAsMoved();
+    void markAsMoved(); //mark this piece as moved
 };
 
 #endif // _PIECE_H_

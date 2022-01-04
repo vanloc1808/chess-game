@@ -26,20 +26,26 @@ private:
 protected:
 
 public:
-    RectangleShape _rect; //it's a square actually
+    RectangleShape _rect; //rectangle (square) to represent the cell
     RectangleShape _checkedRect;
 
-    CircleShape _highlightedCircle;
+    CircleShape _highlightedCircle; //cirlce to represent highlighted cell
 
-    shared_ptr<Piece> _piece; //at most one piece on each cell, so we use the pointer, not the vector
+    //each cell contains at most one piece, so we don't need to use a vector here
+    //use a shared pointer of STL, so that we will not have memory leak
+    shared_ptr<Piece> _piece;
 
-    CellStatus _status;
+    CellStatus _status; //status of the cell
 
-    bool getIsChecked();
+    Cell(); //default constructor
 
-    void highlight(bool highlightCell);
+    ~Cell(); //destructor
 
-    void setIsChecked(bool check);
+    bool getIsChecked(); //getter for isChecked status
+
+    void highlight(bool highlightCell); //highlight the cell
+
+    void setIsChecked(bool check); //setter for isChecked status
 
 };
 #endif // _CELL_H_

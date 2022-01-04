@@ -1,15 +1,15 @@
 #include "Piece.h"
 
+//default constructor, no need to do anything
 Piece::Piece() {
 
 }
 
-
-
-map<PieceColor, map<PieceType, Texture>> Piece::_textureMap;
+map<PieceColor, map<PieceType, Texture>> Piece::_textureMap; //as an initiliazation for this static attribute
 
 void Piece::loadTexture() {
-    //check if the texture has been loaded yet, if not, load it
+    //check if the texture has been loaded yet
+    //if it has not been loaded, load it
     bool condition1 = Piece::_textureMap.find(this->_pieceColor) == Piece::_textureMap.end();
     bool condition2 = Piece::_textureMap[this->_pieceColor].find(this->_pieceType) == Piece::_textureMap[this->_pieceColor].end();
     if (condition1 || condition2) {
@@ -17,13 +17,12 @@ void Piece::loadTexture() {
         Piece::_textureMap[this->_pieceColor][this->_pieceType].loadFromFile(fileLocation);
     }
 
-    //set texture for sprite
+    //set texture for sprite of this piece
     this->_pieceSprite.setTexture(Piece::_textureMap[this->_pieceColor][this->_pieceType]);
 
-    //set scale for sprite
+    //set scale for sprite of this piece
     float xscale = utilities::Settings::getCellSize() / this->_pieceSprite.getTexture()->getSize().x;
     float yscale = utilities::Settings::getCellSize() / this->_pieceSprite.getTexture()->getSize().y;
-
     this->_pieceSprite.setScale(xscale, yscale);
 }
 
