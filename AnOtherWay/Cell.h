@@ -33,7 +33,7 @@ public:
 
     //each cell contains at most one piece, so we don't need to use a vector here
     //use a shared pointer of STL, so that we will not have memory leak
-    shared_ptr<Piece> _piece;
+    shared_ptr<Piece> _piece; 
 
     CellStatus _status; //status of the cell
 

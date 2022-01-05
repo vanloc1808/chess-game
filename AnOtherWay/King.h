@@ -5,7 +5,7 @@
 
 class King : public Piece {
 private:
-    static const int _pieceValue = 10;//value of the King is a special number, if we lose the King, we lose the game
+    static const int _pieceValue = 10; //value of the King is a special number, if we lose the King, we lose the game
 protected:
 
 public:

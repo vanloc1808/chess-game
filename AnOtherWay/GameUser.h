@@ -19,7 +19,7 @@ private:
     PieceColor _userColor; //color of this player
 
     unordered_map<PieceType, vector<weak_ptr<Piece>>> _pieces; //pieces of this player
-    //weak_ptr is used to hold an object that is managed by share_ptr
+    //weak_ptr is used to hold an object that is managed by shared_ptr
     //documents of weak_ptr here:
     //https://en.cppreference.com/w/cpp/memory/weak_ptr
 
