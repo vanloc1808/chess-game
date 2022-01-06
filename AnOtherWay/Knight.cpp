@@ -25,6 +25,7 @@ void Knight::draw(RenderWindow& window) {
     window.draw(this->_pieceSprite);
 }
 
+//https://github.com/mbusy/chess/tree/master/src
 vector<ChessMove> Knight::computePossbibleMoves(const vector<vector<Cell>>& cells) {
     Vector2i position = this->getPosition();
 
