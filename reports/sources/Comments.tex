@@ -1,0 +1,40 @@
+\section{Nhận xét về đồ án}
+\subsection{Ưu điểm}
+\subsubsection{Mô tả tính năng phần mềm}
+Báo cáo đã mô tả đầy đủ các tính năng của phần mềm.
+
+\subsubsection{Mô tả thiết kế phần mềm}
+Sơ đồ UML của phần mềm và mô tả các lớp đã được trình bày trong báo cáo và hình ảnh sơ đồ UML đính kèm.
+
+\subsubsection{Các kỹ thuật của lập trình hướng đối tượng}
+Đồ án đã ứng dụng được nhiều kỹ thuật trong lập trình hướng đối tượng.
+\begin{itemize}
+\item Hàm dựng (constructor): hầu hết các lớp đều được xây dựng với ít nhất một hàm dựng.
+\item Hàm hủy (destructor): các lớp sử dụng các lớp con trỏ "an toàn" của thư viện STL nên hầu hết các hàm hủy đều được để ở dạng mặc định, nhưng chúng cũng được khai báo một cách tường minh trong lớp.
+\item Tính đóng gói (encapsulation): các lớp đều tuân thủ tính đóng gói của lập trình hướng đối tượng, tuân theo quy tắc hộp đen và quy tắc "Tell, don't ask".
+\item Tính kế thừa (inheritance): ứng dụng được mối quan hệ tổng quát hóa/đặc biệt hóa (IS-A, generalization), mối quan hệ bao hàm/bộ phận (association), đặc biệt là mối quan hệ bao hàm/bộ phận độc lập (aggregation).
+\item Tính đa hình (polymorphism): ứng dụng được tính đa hình trong việc xây dựng các phương thức của các quân cờ.
+\item Phương thức thuần ảo (pure virtual method): ứng dụng được hàm thuần ảo trong lớp \lstinline{Piece}. 
+\item Lớp trừu tượng (abstract class): tạo dựng lớp \lstinline{Piece} là lớp trừu tượng, các lớp kế thừa từ \lstinline{Piece} sẽ khai báo các phương thức thuần ảo của lớp \lstinline{Piece}.
+\item Sử dụng kỹ thuật try-throw-catch, giúp phát hiện và xử lý lỗi và ngoại lệ (exception).
+\end{itemize}
+
+\subsubsection{Các cấu trúc dữ liệu}
+Các cấu trúc dữ liệu sử dụng trong đồ án hầu hết đều từ thư viện STL, giúp ta xử lý nhanh chóng và tránh tình trạng rò rỉ bộ nhớ (memory leak).
+
+\subsubsection{Giao diện}
+Đồ án đã xây dựng một giao diện người dùng (GUI) trực quan, sinh động, minh họa đầy đủ các tính năng của môn Cờ vua.
+
+\subsubsection{Độ hoàn thành}
+Đồ án đã hoàn thành hầu hết các chỉ tiêu đặt ra.
+
+\subsubsection{Trình bày}
+Báo cáo đã trình bày rõ ràng, chi tiết về đồ án.
+
+\subsubsection{Design pattern}
+Đồ án đã ứng dụng mẫu thiết kế Iterator trong quá trình duyệt qua các phần tử của nhiều cấu trúc dữ liệu khác nhau.
+
+\subsection{Khuyết điểm}
+Trong quá trình xây dựng, nhóm đã thử tính năng đánh với máy (sử dụng stockfish) nhưng đã gặp lỗi và chưa cung cấp được.\\
+Chưa thiết kế được cơ sở dữ liệu hỗ trợ quản lý tài khoản, nên tính năng quản lý tài khoản chưa được đưa vào phần mềm.\\
+Chưa cung cấp tính năng đi lại cho các nước đi trong ván cờ.
